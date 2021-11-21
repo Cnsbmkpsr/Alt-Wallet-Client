@@ -1,0 +1,19 @@
+{
+  "name": "alt-wallet-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cnsbmkpsr/Alt-Wallet-Client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cnsbmkpsr/Alt-Wallet-Client/issues"
+  },
+  "homepage": "https://github.com/Cnsbmkpsr/Alt-Wallet-Client#readme"
+}
