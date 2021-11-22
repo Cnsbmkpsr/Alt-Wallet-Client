@@ -9,19 +9,12 @@ const startPayment = async ({ setError, setTxs, ether, addr }) => {
   try {
     if (!window.ethereum)
       throw new Error("No crypto wallet found. Please install it.");
-
-    await window.ethereum.send("eth_requestAccounts");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    ethers.utils.getAddress(addr);
-    const tx = await signer.sendTransaction({
-      to: addr,
-      value: ethers.utils.parseEther(ether)
-    });
-    console.log({ ether, addr });
-    console.log("tx", tx);
-    setTxs([tx]);
+    else {
+      console.log("Wallet extension detected!")
+      await window.ethereum.request("eth_requestAccounts");
+    }
   } catch (err) {
+    console.log("error")
     setError(err.message);
   }
 };
@@ -71,7 +64,7 @@ export default function App() {
         <footer className="p-4">
           <button
             type="submit"
-            className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
+            className="bg-purple-700 focus:ring focus:outline-none w-full text-white rounded-md p-2"
           >
             Pay now
           </button>
