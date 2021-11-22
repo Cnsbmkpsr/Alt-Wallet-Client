@@ -26,6 +26,21 @@ const startPayment = async ({ setError, setTxs, ether, addr }) => {
   }
 };
 
+const getWalletInformation = async () => {
+  console.log("[ ]  Get Wallet Informations...")
+  try {
+    await window.ethereum.send("eth_requestAccounts");
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    console.log(provider);
+    const signer = provider.getSigner();
+    console.log(signer)
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+getWalletInformation();
+
 export default function App() {
   const [error, setError] = useState();
   const [txs, setTxs] = useState([]);
