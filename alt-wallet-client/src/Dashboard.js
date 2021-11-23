@@ -34,10 +34,8 @@ const testConnexionToApi = async () => {
 const getWalletInformation = async ({ setApiStatus, apiStatus }) => {
     console.log("[ ]  Get Wallet Informations...")
     try {
-        console.log(apiStatus);
         setApiStatus(await testConnexionToApi());
         await window.ethereum.send("eth_requestAccounts");
-        console.log(apiStatus);
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
@@ -48,14 +46,14 @@ const getWalletInformation = async ({ setApiStatus, apiStatus }) => {
 
 
 export default function Dashboard() {
-    const [apiStatus, setApiStatus] = useState("Not connected");
+    const [apiStatus, setApiStatus] = useState("Offline");
     getWalletInformation({ setApiStatus, apiStatus });
 
 
     return (
         <div className="bg-gray-600 text-center text-white">
             <h1>Bienvenue sur votre Dashboard cliente ETH</h1>
-            <h2>{apiStatus}</h2>
+            <h2>API Status: {apiStatus}</h2>
         </div>
     )
 }
