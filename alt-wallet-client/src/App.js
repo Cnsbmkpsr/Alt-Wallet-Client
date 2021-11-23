@@ -46,10 +46,10 @@ export default function App() {
 
   return (
     <div>
-      <Dashboard />
       <form className="m-4 gb-gray-600" onSubmit={handleSubmit}>
         <div className="credit-card w-full lg:w-1/2 sm:w-auto shadow-lg mx-auto rounded-xl bg-white">
           <main className="mt-4 p-4">
+            <Dashboard />
             <h1 className="text-xl font-semibold text-gray-700 text-center">
               Send ETH payment
             </h1>

@@ -8,7 +8,6 @@ let APIConnexion = false;
 
 
 const testConnexionToApi = async () => {
-    console.log("[ ]  Test Connexion to API...")
     return new Promise((resolve, reject) => {
         try {
             // URL de l'API ici
@@ -27,22 +26,28 @@ const testConnexionToApi = async () => {
 
         } catch (err) {
             console.log(err);
+            APIConnexion = false;
+            resolve(null);
         }
     })
 }
 
-const getWalletInformation = async ({ setApiStatus }) => {
+const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAddress, setSignerWalletTransactionCount }) => {
+    console.log("Da")
     try {
         setApiStatus(await testConnexionToApi());
         await window.ethereum.send("eth_requestAccounts");
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         let networkName = (await provider.getNetwork()).name;
+        setNetworkName(networkName);
 
         const signer = provider.getSigner();
         let signerAddress = (await signer.getAddress());
+        setSignerAddress(signerAddress);
 
         let signerWalletTransactionCount = await signer.getTransactionCount();
+        setSignerWalletTransactionCount(signerWalletTransactionCount);
 
     } catch (err) {
         console.log(err);
@@ -51,18 +56,21 @@ const getWalletInformation = async ({ setApiStatus }) => {
 
 export default function Dashboard() {
     const [apiStatus, setApiStatus] = useState();
-    getWalletInformation({ setApiStatus });
+    const [networkName, setNetworkName] = useState();
+    const [signerAddress, setSignerAddress] = useState();
+    const [signerWalletTransactionCount, setSignerWalletTransactionCount] = useState();
+    getWalletInformation({ setApiStatus, setNetworkName, setSignerAddress, setSignerWalletTransactionCount });
 
-    setInterval(getWalletInformation, 10000, { setApiStatus });
+    setInterval(getWalletInformation, 10000, { setApiStatus, setNetworkName, setSignerAddress, setSignerWalletTransactionCount });
 
 
     return (
-        <div className="bg-gray-600 text-center text-white">
+        <div className="text-center text-gray-800">
             <h1>Bienvenue sur votre Dashboard cliente ETH</h1>
 
             {/* API Status */}
             {
-                !apiStatus &&
+                !APIConnexion &&
                 <h1 className="bg-red-600">API Status: Offline</h1>
             }
             {
@@ -74,6 +82,22 @@ export default function Dashboard() {
                 !APIConnexion &&
                 <h1 className="bg-yellow-600">Please wait, we are trying to connect to the API...</h1>
             }
+
+            {
+                networkName &&
+                <h1>Network: {networkName}</h1>
+            }
+
+            {
+                signerAddress &&
+                <h1>Wallet address: {signerAddress}</h1>
+            }
+
+            {
+                signerWalletTransactionCount &&
+                <h1>Nonce: {signerWalletTransactionCount}</h1>
+            }
+
         </div>
     )
 }
