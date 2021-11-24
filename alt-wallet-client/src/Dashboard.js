@@ -32,8 +32,7 @@ const testConnexionToApi = async () => {
     })
 }
 
-const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAddress, setSignerWalletTransactionCount }) => {
-    console.log("Da")
+const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount }) => {
     try {
         setApiStatus(await testConnexionToApi());
         await window.ethereum.send("eth_requestAccounts");
@@ -46,8 +45,12 @@ const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAdd
         let signerAddress = (await signer.getAddress());
         setSignerAddress(signerAddress);
 
+        let signerBalance = (await ethers.utils.formatEther(await signer.getBalance()));
+        setSignerBalance(signerBalance);
+
         let signerWalletTransactionCount = await signer.getTransactionCount();
         setSignerWalletTransactionCount(signerWalletTransactionCount);
+
 
     } catch (err) {
         console.log(err);
@@ -58,10 +61,11 @@ export default function Dashboard() {
     const [apiStatus, setApiStatus] = useState();
     const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
+    const [signerBalance, setSignerBalance] = useState();
     const [signerWalletTransactionCount, setSignerWalletTransactionCount] = useState();
-    getWalletInformation({ setApiStatus, setNetworkName, setSignerAddress, setSignerWalletTransactionCount });
+    getWalletInformation({ setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount });
 
-    setInterval(getWalletInformation, 10000, { setApiStatus, setNetworkName, setSignerAddress, setSignerWalletTransactionCount });
+    setInterval(getWalletInformation, 10000, { setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount });
 
 
     return (
@@ -79,11 +83,6 @@ export default function Dashboard() {
             }
 
             {
-                !APIConnexion &&
-                <h1 className="bg-yellow-600">Please wait, we are trying to connect to the API...</h1>
-            }
-
-            {
                 networkName &&
                 <h1>Network: {networkName}</h1>
             }
@@ -91,6 +90,11 @@ export default function Dashboard() {
             {
                 signerAddress &&
                 <h1>Wallet address: {signerAddress}</h1>
+            }
+
+            {
+                signerBalance &&
+                <h1>Wallet ETH Balance: {signerBalance}</h1>
             }
 
             {
