@@ -4,37 +4,41 @@ import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
 import { resolveProperties } from "@ethersproject/properties";
 
+//console.clear();
+
 let APIConnexion = false;
 
 
-const testConnexionToApi = async () => {
-    return new Promise((resolve, reject) => {
-        try {
-            // URL de l'API ici
-            var url = "http://localhost:7546/"
-            var request = new XMLHttpRequest();
-            request.open('GET', url);
-            request.responseType = 'text';
-            request.send();
+const testConnexionToApi = () => {
+    console.log("test connexion to api")
+    try {
+        // URL de l'API ici
+        var url = "http://localhost:7546/"
+        var request = new XMLHttpRequest();
+        request.open('GET', url);
+        request.responseType = 'text';
+        request.send();
 
-            fetch(url).then(function (response) {
-                response.text().then(function (text) {
-                    APIConnexion = true;
-                    resolve(text);
-                });
+        fetch(url).then(function (response) {
+            response.text().then(function (text) {
+                console.log("complete...")
+                APIConnexion = true;
+                return (text);
             });
+        });
 
-        } catch (err) {
-            console.log(err);
-            APIConnexion = false;
-            resolve(null);
-        }
-    })
+    } catch (err) {
+        console.log("reject")
+        console.log(err);
+        APIConnexion = false;
+        return (null);
+    }
 }
 
 const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount }) => {
+    console.log("get wallet information")
     try {
-        setApiStatus(await testConnexionToApi());
+        setApiStatus(testConnexionToApi());
         await window.ethereum.send("eth_requestAccounts");
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -58,6 +62,7 @@ const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAdd
 }
 
 export default function Dashboard() {
+
     const [apiStatus, setApiStatus] = useState();
     const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
@@ -65,7 +70,7 @@ export default function Dashboard() {
     const [signerWalletTransactionCount, setSignerWalletTransactionCount] = useState();
     getWalletInformation({ setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount });
 
-    setInterval(getWalletInformation, 10000, { setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount });
+    //setInterval(getWalletInformation, 10000, { setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount });
 
 
     return (
