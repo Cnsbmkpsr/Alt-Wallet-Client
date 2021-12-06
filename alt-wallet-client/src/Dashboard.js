@@ -18,7 +18,6 @@ export default function Dashboard() {
 
     useEffect(() => {
         const testConnexionToApi = () => {
-            console.log(apiStatus);
             return new Promise((resolve, reject) => {
                 try {
                     //setApiStatus(null);
@@ -32,8 +31,6 @@ export default function Dashboard() {
 
                     fetch(url).then(function (response) {
                         response.text().then(function (text) {
-                            console.log("response here")
-                            console.log(text);
                             APIConnexion = true;
                             resolve(text);
                         });
@@ -44,7 +41,6 @@ export default function Dashboard() {
                     }
 
                 } catch (err) {
-                    console.log("no api :(")
                     console.log(err);
                     APIConnexion = false;
                     setApiStatus(null);
@@ -56,7 +52,6 @@ export default function Dashboard() {
 
         const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAddress, setSignerBalance, setSignerWalletTransactionCount }) => {
             try {
-                console.log("get wallte information")
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 let networkName = (await provider.getNetwork()).name;
                 setNetworkName(networkName);
