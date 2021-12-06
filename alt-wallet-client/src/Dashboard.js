@@ -74,7 +74,7 @@ export default function Dashboard() {
 
     return (
         <div className="text-center text-gray-800">
-            <h1>Bienvenue sur votre Dashboard cliente ETH</h1>
+            <h1>Bienvenue sur votre Dashboard cliente EETH</h1>
 
             {/* API Status */}
             {
