@@ -77,7 +77,7 @@ const SendTransaction = () => {
                     <footer className="p-4">
                         <button
                             type="submit"
-                            className="btn btn-primary submit-button focus:ring focus:outline-none w-full"
+                            className="bg-gray-200 submit-button focus:ring focus:outline-none w-full"
                         >
                             Pay now
                         </button>
