@@ -55,8 +55,6 @@ const getWalletInformation = async ({ setApiStatus, setNetworkName, setSignerAdd
 
         setApiStatus(await testConnexionToApi());
 
-
-
     } catch (err) {
         console.log(err);
     }
