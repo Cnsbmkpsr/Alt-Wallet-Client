@@ -3,9 +3,7 @@ import React from 'react'
 const Header = () => {
     return (
         <div class="dark">
-
-
-            <nav class="bg-white dark:bg-gray-800  shadow ">
+            <nav clazss="bg-white dark:bg-gray-800  shadow ">
                 <div class="max-w-7xl mx-auto px-8">
                     <div class="flex items-center justify-between h-16">
                         <div class=" flex items-center">
@@ -13,7 +11,7 @@ const Header = () => {
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline space-x-4">
                                     <a class="text-gray-300  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium" href="/#">
-                                        Home
+                                        Homeeee
                                     </a>
                                     <a class="text-gray-800 dark:text-white  hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium" href="/#">
                                         Gallery

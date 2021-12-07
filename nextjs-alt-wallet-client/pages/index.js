@@ -37,11 +37,11 @@ export default function Home() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <h1 className=" text-indigo-600 font-semibold tracking-wide uppercase text-2xl">ETH Network Transactions</h1>
+          <h1 className=" text-indigo-600 font-semibold tracking-wide uppercase text-2xl p-16">ETH Network Transactions</h1>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             A better way to send money
           </p>
-          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto p-4">
             New to the world of crypto-currencies? Discover a simple and elegant way to get started in this new world. Our service provides you with many details about your transactions and explains step by step this new universe that is Crypto currency.
           </p>
         </div>
