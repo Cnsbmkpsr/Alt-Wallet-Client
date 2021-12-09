@@ -37,7 +37,7 @@ export default function Dashboard() {
                     }
 
                 } catch (err) {
-                    console.log(err);
+                    //console.log(err);
                     APIConnexion = false;
                     setApiStatus(null);
                 }
