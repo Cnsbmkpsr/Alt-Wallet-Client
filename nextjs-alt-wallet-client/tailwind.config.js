@@ -6,9 +6,7 @@ module.exports = {
     locales: ["en-US"],
     defaultLocale: "en-US",
   },
-  purge: {
-    purge: ['./src/components/**/*.{js,ts,jsx,tsx}', './src/pages/**/*.{js,ts,jsx,tsx}']
-  },
+  purge: ['./src/components/**/*.{js,ts,jsx,tsx}', './src/pages/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       backgroundImage: (theme) => ({
