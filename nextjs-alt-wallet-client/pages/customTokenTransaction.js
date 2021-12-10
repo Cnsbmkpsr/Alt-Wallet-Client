@@ -12,7 +12,12 @@ const customTokenTransaction = () => {
     const [userAccount, setUserAccount] = useState()
     const [amount, setAmount] = useState()
 
-
+    /**
+     * * Get account from metamask
+     */
+    async function requestAccount() {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+    }
 
     async function getBalance() {
         if (typeof window.ethereum !== 'undefined') {

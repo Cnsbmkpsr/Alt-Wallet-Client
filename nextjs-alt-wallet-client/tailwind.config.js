@@ -7,8 +7,7 @@ module.exports = {
     defaultLocale: "en-US",
   },
   purge: {
-    content: ["./pages/**/*.tsx", "./components/**/*.tsx"],
-    // These options are passed through directly to PurgeCSS
+    purge: ["./components/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}"],    // These options are passed through directly to PurgeCSS
   },
   theme: {
     extend: {
