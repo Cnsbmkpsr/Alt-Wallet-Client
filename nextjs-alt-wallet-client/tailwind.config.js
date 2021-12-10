@@ -25,7 +25,11 @@ module.exports = {
       zIndex: ["hover", "active"],
     },
   },
-  plugins: [],
+  plugins: [
+    "postcss-import",
+    "tailwindcss",
+    "autoprefixer"
+  ],
   future: {
     purgeLayersByDefault: true,
   },
