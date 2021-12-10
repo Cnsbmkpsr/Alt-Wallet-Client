@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Navbar from "../components/Navbar";
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
@@ -64,7 +64,9 @@ const customTokenTransaction = () => {
         }
     }
 
-    getTokenInformation();
+    useEffect(() => {
+        getTokenInformation();
+    }, []);
 
     return (
         <div>
@@ -80,10 +82,10 @@ const customTokenTransaction = () => {
             </div>
             <div className="bg-blue-300">
                 {tokenAddress ? <h2>Address du Token: {tokenAddress}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Address du Token: {tokenAddress}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Address du Token: {tokenAddress}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Address du Token: {tokenAddress}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Address du Token: {tokenAddress}</h2> : <h2>Chargement...</h2>}
+                {tokenAddress ? <h2>Nom du Token: {tokenName}</h2> : <h2>Chargement...</h2>}
+                {tokenAddress ? <h2>Supply du Token: {tokenSupply}</h2> : <h2>Chargement...</h2>}
+                {tokenAddress ? <h2>Address de l'éméteur du Token: {tokenOwnerAddress}</h2> : <h2>Chargement...</h2>}
+                {tokenAddress ? <h2>Symbol du Token: {tokenSymbol}</h2> : <h2>Chargement...</h2>}
             </div>
         </div>
     )
