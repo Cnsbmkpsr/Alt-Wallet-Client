@@ -46,11 +46,10 @@ const customTokenTransaction = () => {
     return (
         <div>
             <Navbar />
-            <h1>Custom token transaction</h1>
 
             <DashboardCustomToken />
             <div className="flex flex-col bg-gray-400 p-4 m-4">
-                <button onClick={requestAccount}>Request account</button>
+                <button onClick={requestAccount}>Connecter mon wallet</button>
                 <button onClick={getBalance}>Get Balance</button>
                 <button onClick={sendCoins}>Send Coins</button>
                 <input onChange={e => setUserAccount(e.target.value)} placeholder="Account ID" />

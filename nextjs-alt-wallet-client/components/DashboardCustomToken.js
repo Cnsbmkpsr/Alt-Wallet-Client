@@ -49,13 +49,48 @@ const DashboardCustomToken = () => {
 
     return (
         <div>
-            <div className="bg-blue-300">
-                {tokenAddress && <h2>Address du Token: {tokenAddress} </h2>}
-                {tokenAddress ? <h2>Nom du Token: {tokenName}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Supply du Token: {tokenSupply}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Address de l'éméteur du Token: {tokenOwnerAddress}</h2> : <h2>Chargement...</h2>}
-                {tokenAddress ? <h2>Symbol du Token: {tokenSymbol}</h2> : <h2>Chargement...</h2>}
-                <button onClick={getTokenInformation}>Get Token Information</button>
+            <div className="flex flex-col justify-center text-center">
+                {tokenAddress ?
+
+                    <div class="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
+                        <p class="text-sm w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                            Informations du token {tokenName}
+                        </p>
+                        <div class="flex items-end space-x-2 my-6 text-center">
+                            <p class="text-xl text-black dark:text-white font-bold">
+                                Addresse du token : {tokenAddress}
+                            </p>
+
+                        </div>
+                        <div class="dark:text-white">
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                <p>
+                                    Supply totale du token
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {tokenSupply}
+                                </div>
+                            </div>
+                            <div class="flex items-center mb-2 pb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                <p>
+                                    Symbole du token
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {tokenSymbol}
+                                </div>
+                            </div>
+                            <div class="flex items-center text-sm space-x-12 md:space-x-24 justify-between">
+                                <p>
+                                    Addresse émétrice du token
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {tokenOwnerAddress}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    : <h2>Chargement...</h2>}
+
             </div>
         </div>
     )
