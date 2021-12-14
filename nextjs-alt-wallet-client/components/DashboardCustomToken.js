@@ -13,6 +13,7 @@ const DashboardCustomToken = () => {
     const [tokenSupply, setTokenSupply] = useState();
     const [tokenOwnerAddress, setTokenOwnerAddress] = useState();
     const [tokenSymbol, setTokenSymbol] = useState();
+    const [tokenNetwork, setTokenNetwork] = useState();
 
     /**
      * * Get account from metamask
@@ -33,7 +34,10 @@ const DashboardCustomToken = () => {
             const contractSupply = await contract.totalSupply();
             const contractOwner = await contract.owner();
             const contractSymbol = await contract.symbol();
+            const contractProvider = await contract.provider;
+            const contractNetwork = await contractProvider.getNetwork();
 
+            setTokenNetwork(contractNetwork.name);
             setTokenAddress(contractAddress);
             setTokenName(contractName);
             setTokenSupply(contractSupply.toNumber());
@@ -54,18 +58,26 @@ const DashboardCustomToken = () => {
 
                     <div class="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
                         <p class="text-sm w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
-                            Informations du token {tokenName}
+                            Token informations for {tokenName}
                         </p>
-                        <div class="flex items-end space-x-2 my-6 text-center">
-                            <p class="text-xl text-black dark:text-white font-bold">
-                                Addresse du token : {tokenAddress}
+                        <div class="flex items-end space-x-2 my-2 text-center">
+                            <p class="text-base text-black dark:text-white font-bold">
+                                Token address : {tokenAddress}
                             </p>
 
                         </div>
                         <div class="dark:text-white">
                             <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
-                                    Supply totale du token
+                                    Network name on which the token is deployed
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {tokenNetwork}
+                                </div>
+                            </div>
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                <p>
+                                    Total supply of the token
                                 </p>
                                 <div class="flex items-end text-xs">
                                     {tokenSupply}
@@ -73,7 +85,7 @@ const DashboardCustomToken = () => {
                             </div>
                             <div class="flex items-center mb-2 pb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
-                                    Symbole du token
+                                    Token symbol
                                 </p>
                                 <div class="flex items-end text-xs">
                                     {tokenSymbol}
@@ -81,7 +93,7 @@ const DashboardCustomToken = () => {
                             </div>
                             <div class="flex items-center text-sm space-x-12 md:space-x-24 justify-between">
                                 <p>
-                                    Addresse émétrice du token
+                                    Address of the token transmitter
                                 </p>
                                 <div class="flex items-end text-xs">
                                     {tokenOwnerAddress}
@@ -89,7 +101,7 @@ const DashboardCustomToken = () => {
                             </div>
                         </div>
                     </div>
-                    : <h2>En attente des informations du token...</h2>
+                    : <h2>Waiting for token information...</h2>
                 }
             </div>
         </div>

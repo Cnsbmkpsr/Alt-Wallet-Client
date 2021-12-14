@@ -20,9 +20,7 @@ const customTokenTransaction = () => {
     async function requestAccount() {
         if (typeof window.ethereum == 'undefined') {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
-            console.log("Connexion...")
         } else {
-            console.log("Account connected!")
             getBalance()
         }
     }
@@ -33,13 +31,11 @@ const customTokenTransaction = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
             const balance = await contract.balanceOf(account);
-            console.log(account);
-            const network = await provider.getTransactionCount(account);
+            const network = await provider.getNetwork();
             balance = balance.toString();
+            setUserAccount(account);
             setAltTokenBalance(balance);
-            setWalletNetworkUse(network);
-            console.log(walletNetworkUse)
-
+            setWalletNetworkUse(network.name);
         }
     }
 
@@ -69,7 +65,7 @@ const customTokenTransaction = () => {
 
                 {altTokenBalance ?
                     <div>
-                        <p class="text-sm w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                        <p class="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
                             Your wallet informations
                         </p>
 
@@ -80,6 +76,15 @@ const customTokenTransaction = () => {
                                 </p>
                                 <div class="flex items-end text-xs">
                                     {altTokenBalance}
+                                </div>
+                            </div>
+
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                <p>
+                                    Network connected :
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {walletNetworkUse}
                                 </div>
                             </div>
 
