@@ -89,8 +89,8 @@ const DashboardCustomToken = () => {
                             </div>
                         </div>
                     </div>
-                    : <h2>Chargement...</h2>}
-
+                    : <h2>En attente des informations du token...</h2>
+                }
             </div>
         </div>
     )

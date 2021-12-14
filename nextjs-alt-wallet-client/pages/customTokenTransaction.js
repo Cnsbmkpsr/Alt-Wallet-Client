@@ -11,12 +11,20 @@ const customTokenTransaction = () => {
 
     const [userAccount, setUserAccount] = useState()
     const [amount, setAmount] = useState()
+    const [altTokenBalance, setAltTokenBalance] = useState()
+    const [walletNetworkUse, setWalletNetworkUse] = useState()
 
     /**
      * * Get account from metamask
      */
     async function requestAccount() {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (typeof window.ethereum == 'undefined') {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            console.log("Connexion...")
+        } else {
+            console.log("Account connected!")
+            getBalance()
+        }
     }
 
     async function getBalance() {
@@ -25,7 +33,13 @@ const customTokenTransaction = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
             const balance = await contract.balanceOf(account);
-            console.log("Balance: ", balance.toString());
+            console.log(account);
+            const network = await provider.getTransactionCount(account);
+            balance = balance.toString();
+            setAltTokenBalance(balance);
+            setWalletNetworkUse(network);
+            console.log(walletNetworkUse)
+
         }
     }
 
@@ -42,18 +56,57 @@ const customTokenTransaction = () => {
     }
 
 
+    useEffect(() => {
+        requestAccount();
+    }, []);
 
     return (
         <div>
             <Navbar />
 
             <DashboardCustomToken />
-            <div className="flex flex-col bg-gray-400 p-4 m-4">
-                <button onClick={requestAccount}>Connecter mon wallet</button>
-                <button onClick={getBalance}>Get Balance</button>
-                <button onClick={sendCoins}>Send Coins</button>
-                <input onChange={e => setUserAccount(e.target.value)} placeholder="Account ID" />
-                <input onChange={e => setAmount(e.target.value)} placeholder="Amount" />
+            <div className="flex flex-col justify-center justify-items-center justify-self-center content-center items-center bg-gray-100 p-4 m-4 shadow-lg dark:bg-gray-800">
+
+                {altTokenBalance ?
+                    <div>
+                        <p class="text-sm w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                            Your wallet informations
+                        </p>
+
+                        <div class="dark:text-white">
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                <p>
+                                    Your Alt Token balance :
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {altTokenBalance}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    : <h2>En attente des informations du token...</h2>
+                }
+
+                <input onChange={e => setUserAccount(e.target.value)} placeholder="Account ID" class="simpleInput" />
+                <input onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
+
+                <div>
+                    <button onClick={requestAccount} type="button" class="simpleButton m-2">
+                        Connecter mon wallet
+                    </button>
+
+                    <button onClick={getBalance} type="button" class="simpleButton m-2">
+                        Get my Balance
+                    </button>
+
+                    <button onClick={sendCoins} type="button" class="simpleButton m-2 bg-green-500">
+                        Send the token
+                    </button>
+
+
+                </div>
+
             </div>
 
 
