@@ -13,6 +13,7 @@ const customTokenTransaction = () => {
     const [amount, setAmount] = useState()
     const [altTokenBalance, setAltTokenBalance] = useState()
     const [walletNetworkUse, setWalletNetworkUse] = useState()
+    const [destinationAddress, setDestinationAddress] = useState()
 
     /**
      * * Get account from metamask
@@ -32,6 +33,8 @@ const customTokenTransaction = () => {
             const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
             const balance = await contract.balanceOf(account);
             const network = await provider.getNetwork();
+            console.log(destinationAddress);
+
             balance = balance.toString();
             setUserAccount(account);
             setAltTokenBalance(balance);
@@ -45,7 +48,8 @@ const customTokenTransaction = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
             const contract = new ethers.Contract(altTokenAddress, Token.abi, signer);
-            const transaction = await contract.transfer(userAccount, amount);
+            console.log(destinationAddress);
+            const transaction = await contract.transfer(destinationAddress, amount);
             await transaction.wait();
             console.log(`${amount} Coins successfully sent to ${userAccount}`);
         }
@@ -70,6 +74,16 @@ const customTokenTransaction = () => {
                         </p>
 
                         <div class="dark:text-white">
+
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                <p>
+                                    Your wallet address :
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {userAccount}
+                                </div>
+                            </div>
+
                             <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
                                     Your Alt Token balance :
@@ -93,11 +107,11 @@ const customTokenTransaction = () => {
                     : <h2>En attente des informations du token...</h2>
                 }
 
-                <input onChange={e => setUserAccount(e.target.value)} placeholder="Account ID" class="simpleInput" />
-                <input onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
+                <input defaultValue={"x0x"} onChange={e => setDestinationAddress(e.target.value)} placeholder="Delivery address" class="simpleInput" />
+                <input defaultValue={0} onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
 
                 <div>
-                    <button onClick={requestAccount} type="button" class="simpleButton m-2">
+                    <button onClick={requestAccount} type="button" class="simpleButton m-2 bg-cyan-600">
                         Connecter mon wallet
                     </button>
 

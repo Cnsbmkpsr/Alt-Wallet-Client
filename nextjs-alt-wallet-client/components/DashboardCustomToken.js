@@ -57,17 +57,20 @@ const DashboardCustomToken = () => {
                 {tokenAddress ?
 
                     <div class="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-                        <p class="text-sm w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                        <p class="text-lg w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
                             Token informations for {tokenName}
                         </p>
-                        <div class="flex items-end space-x-2 my-2 text-center">
-                            <p class="text-base text-black dark:text-white font-bold">
-                                Token address : {tokenAddress}
-                            </p>
 
-                        </div>
                         <div class="dark:text-white">
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
+                                <p>
+                                    Token address
+                                </p>
+                                <div class="flex items-end text-xs">
+                                    {tokenAddress}
+                                </div>
+                            </div>
+                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
                                 <p>
                                     Network name on which the token is deployed
                                 </p>
