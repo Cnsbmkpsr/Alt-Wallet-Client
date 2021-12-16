@@ -87,7 +87,6 @@ const SendTransaction = () => {
                     </footer>
                 </div>
             </form>
-            <DashboardApi />
         </div>
     )
 }
