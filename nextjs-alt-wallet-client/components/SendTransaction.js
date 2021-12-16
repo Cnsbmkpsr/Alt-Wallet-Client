@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import Dashboard from './Dashboard';
 import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
+import DashboardApi from './DashboardApi';
 
 const SendTransaction = () => {
 
@@ -86,6 +87,7 @@ const SendTransaction = () => {
                     </footer>
                 </div>
             </form>
+            <DashboardApi />
         </div>
     )
 }

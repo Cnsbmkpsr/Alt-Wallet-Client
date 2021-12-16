@@ -107,8 +107,8 @@ const customTokenTransaction = () => {
                     : <h2>En attente des informations du token...</h2>
                 }
 
-                <input defaultValue={"x0x"} onChange={e => setDestinationAddress(e.target.value)} placeholder="Delivery address" class="simpleInput" />
-                <input defaultValue={0} onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
+                <input defaultValue={""} onChange={e => setDestinationAddress(e.target.value)} placeholder="Delivery address" class="simpleInput" />
+                <input defaultValue={""} onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
 
                 <div>
                     <button onClick={requestAccount} type="button" class="simpleButton m-2 bg-cyan-600">
