@@ -5,26 +5,27 @@ const DashboardApi = ({ props }) => {
 
     const [apiStatus, setApiStatus] = useState(null);
     const apiUrl = "http://localhost:7546/"
+    const apiConnexionTimeout = 10;
+    const [transactionsHistory, setTransactionsHistory] = useState(null);
 
-    const apiRequestBuilder = async (ressourcePath, type, params) => {
+    const apiRequestBuilder = async (ressourcePath, type, params, responseType) => {
         return new Promise((resolve, reject) => {
             try {
                 var request = new XMLHttpRequest();
                 ressourcePath = apiUrl + ressourcePath;
                 request.open(type, ressourcePath + "?" + params, true);
-                request.timeout = 30000;
-                request.responseType = 'json';
+                request.timeout = 10000;
+                request.responseType = responseType;
                 request.onload = function (e) {
                     if (this.status == 200) {
-                        console.log(this.response); // JSON response  
+                        apiConnexionTimeout = 10;
+                        resolve(this.response);
                     }
                 };
                 request.send();
-                fetch(apiUrl).then(function (response) {
-                    resolve(response);
-                });
                 request.ontimeout = function () {
                     setApiStatus(null);
+                    resolve(null);
                     console.log("[-] Error, timeout for connexion to the API")
                 }
             } catch (err) {
@@ -35,8 +36,13 @@ const DashboardApi = ({ props }) => {
 
     const testConnexionToApi = async () => {
         try {
-            const apiResponse = await apiRequestBuilder("", "GET", "");
+            apiConnexionTimeout -= 1;
+            if (apiConnexionTimeout <= 0) {
+                setApiStatus(null);
+            }
+            const apiResponse = await apiRequestBuilder("", "GET", "", "text");
             setApiStatus(apiResponse);
+
         } catch (err) {
             throw new Error(err);                    //console.log(err);
         }
@@ -45,22 +51,28 @@ const DashboardApi = ({ props }) => {
     const getTransactionHistory = async (props) => {
         try {
             let params = "publicKey=" + "0x86B8582BFA4deE84802e9FB6609BBAf065209E3A"
-            const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params);
-            //console.log(apiResponse);
+            const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
+            setTransactionsHistory(apiResponse);
+            console.log(apiResponse[0])
+
         } catch (err) {
             throw new Error(err);                    //console.log(err);
         }
     }
 
     useEffect(() => {
-        testConnexionToApi();
-        //setInterval(testConnexionToApi, 1000);
-        getTransactionHistory(props);
+        try {
+            testConnexionToApi();
+            setInterval(testConnexionToApi, 1000);
+            getTransactionHistory(props);
+        } catch (err) {
+            console.log(err);
+        }
     }, []);
 
     return (
         <div className="flex flex-col justify-center text-center">
-            <div class="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
+            <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
                 <h1 className="text-4xl">API Dashboard</h1>
                 {
                     !apiStatus &&
@@ -69,6 +81,22 @@ const DashboardApi = ({ props }) => {
                 {
                     apiStatus &&
                     <h1 className="bg-green-600">API Status: Online</h1>
+                }
+                {
+                    transactionsHistory &&
+                    <div>
+                        <h1>Transactions: </h1>
+                        {transactionsHistory.map((transaction) =>
+                            <div>
+                                <p>Transaction number: {transaction.nonce - 1}</p>
+                                <p>Transaction hash: {transaction.hash}</p>
+                                <p>Transaction index: {transaction.transactionIndex}</p>
+                                <p>Transaction gasPrice: {transaction.gasPrice}</p>
+                                <p>Transaction done at {transaction.timestamp}</p>
+                                <p>Transaction done to {transaction.to}</p>
+                            </div>
+                        )}
+                    </div>
                 }
             </div>
         </div>
