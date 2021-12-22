@@ -91,7 +91,6 @@ const DashboardApi = ({ props }) => {
                                 <p>Transaction number: {transaction.nonce - 1}</p>
                                 <p>Transaction hash: {transaction.hash}</p>
                                 <p>Transaction index: {transaction.transactionIndex}</p>
-                                <p>Transaction gasPrice: {transaction.gasPrice}</p>
                                 <p>Transaction done at {transaction.timestamp}</p>
                                 <p>Transaction done to {transaction.to}</p>
                             </div>
