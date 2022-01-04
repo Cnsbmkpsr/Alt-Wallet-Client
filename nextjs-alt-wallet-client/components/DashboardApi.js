@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 const DashboardApi = ({ props }) => {
 
     const [apiStatus, setApiStatus] = useState(null);
-    const apiUrl = "http://localhost:7546/"
+    const apiUrl = "http://34.78.56.8:7546/"
     const apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
 
