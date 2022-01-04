@@ -112,7 +112,9 @@ const customTokenTransaction = () => {
 
                         </div>
                     </div>
-                    : <h2>En attente des informations du token...</h2>
+                    : <div>
+                        <h2>En attente des informations de votre wallet...</h2>
+                    </div>
                 }
 
                 <input defaultValue={""} onChange={e => setDestinationAddress(e.target.value)} placeholder="Delivery address" class="simpleInput" />
@@ -122,7 +124,7 @@ const customTokenTransaction = () => {
 
                 <div>
                     <button onClick={requestAccount} type="button" class="simpleButton m-2 bg-cyan-600">
-                        Connecter mon wallet
+                        Connect my wallet
                     </button>
 
                     <button onClick={getBalance} type="button" class="simpleButton m-2">

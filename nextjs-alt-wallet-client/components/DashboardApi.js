@@ -83,19 +83,25 @@ const DashboardApi = ({ props }) => {
                     <h1 className="bg-green-600">API Status: Online</h1>
                 }
                 {
-                    transactionsHistory &&
-                    <div>
-                        <h1>Transactions: </h1>
-                        {transactionsHistory.map((transaction) =>
-                            <div>
-                                <p>Transaction number: {transaction.nonce - 1}</p>
-                                <p>Transaction hash: {transaction.hash}</p>
-                                <p>Transaction index: {transaction.transactionIndex}</p>
-                                <p>Transaction done at {transaction.timestamp}</p>
-                                <p>Transaction done to {transaction.to}</p>
-                            </div>
-                        )}
-                    </div>
+                    transactionsHistory ?
+                        <div>
+                            <h1>Transactions: </h1>
+                            {transactionsHistory.map((transaction) =>
+                                <div>
+                                    <p>Transaction number: {transaction.nonce - 1}</p>
+                                    <p>Transaction hash: {transaction.hash}</p>
+                                    <p className="bg-blue-400">Transaction index: {transaction.transactionIndex}</p>
+                                    <p>Transaction done at {transaction.timestamp}</p>
+                                    <p >Transaction done to {transaction.to}</p>
+                                </div>
+                            )}
+                        </div>
+
+                        :
+
+                        <div>
+                            <h3>Recovery of your transaction history, please wait...</h3>
+                        </div>
                 }
             </div>
         </div>

@@ -104,7 +104,10 @@ const DashboardCustomToken = () => {
                             </div>
                         </div>
                     </div>
-                    : <h2>Waiting for token information...</h2>
+                    : <div>
+                        <h2>Attempt to retrieve information from the ALT Token...</h2>
+                        <h2>Make sure you are connected to the Test Rinkeby network</h2>
+                    </div>
                 }
             </div>
         </div>
