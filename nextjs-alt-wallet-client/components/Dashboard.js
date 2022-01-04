@@ -29,7 +29,6 @@ export default function Dashboard() {
 
             await window.ethereum.send("eth_requestAccounts");
 
-
         } catch (err) {
             console.log(err);
         }
