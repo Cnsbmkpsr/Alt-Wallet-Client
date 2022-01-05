@@ -2,6 +2,8 @@ import Dashboard from './Dashboard';
 import React, { useState, useEffect } from 'react';
 import { utils } from 'ethers';
 import { ethers } from 'ethers';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { BiClipboard } from "react-icons/bi"
 
 const DashboardApi = ({ props }) => {
 
@@ -9,6 +11,8 @@ const DashboardApi = ({ props }) => {
     const apiUrl = "http://34.78.56.8:7546/"
     const apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
+
+    const [copyState, setCopyState] = useState(null);
 
     const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
@@ -51,7 +55,7 @@ const DashboardApi = ({ props }) => {
             setApiStatus(apiResponse);
 
         } catch (err) {
-            throw new Error(err);                    //console.log(err);
+            throw new Error(err);
         }
     }
 
@@ -124,22 +128,22 @@ const DashboardApi = ({ props }) => {
                                             <table class="min-w-full leading-normal">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             Index
                                                         </th>
-                                                        <th scope="col" class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                             Hash
                                                         </th>
-                                                        <th scope="col" class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                             Gas Price (ETH)
                                                         </th>
-                                                        <th scope="col" class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             value (ETH)
                                                         </th>
-                                                        <th scope="col" class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             timestamp
                                                         </th>
-                                                        <th scope="col" class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                             Status
                                                         </th>
                                                     </tr>
@@ -147,29 +151,34 @@ const DashboardApi = ({ props }) => {
                                                 <tbody>
                                                     {transactionsHistory.map((transaction) =>
                                                         <tr>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                                     {transaction.nonce - 1}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                                    {transaction.hash}
+                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <p class="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
+                                                                    {transaction.hash.substring(0, 4)} ...                               {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
+                                                                    <CopyToClipboard
+
+                                                                        onCopy={() => setCopyState({ copied: true })} text={transaction.hash}>
+                                                                        <BiClipboard />
+                                                                    </CopyToClipboard>
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                                     {utils.formatEther(transaction.gasPrice)}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                                     {utils.formatEther(transaction.value)}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                                    {new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}/{new Date(transaction.timestamp * 1000).getFullYear()}
+                                                                    {new Date(transaction.timestamp * 1000).getFullYear()}/{new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}
                                                                 </p>
                                                             </td>
                                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -177,7 +186,7 @@ const DashboardApi = ({ props }) => {
                                                                     <span aria-hidden="true" class="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                                                                     </span>
                                                                     <span class="relative">
-                                                                        Done
+                                                                        Success
                                                                     </span>
                                                                 </span>
                                                             </td>
