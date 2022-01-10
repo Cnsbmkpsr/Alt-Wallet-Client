@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
 import DashboardCustomToken from '../components/DashboardCustomToken';
 import ErrorMessage from "../components/ErrorMessage";
+import MultiSend from '../components/MultiSend';
 
 const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
@@ -43,24 +44,6 @@ const customTokenTransaction = () => {
             setAltTokenBalance(balance);
             setWalletNetworkUse(network.name);
         }
-    }
-
-    async function sendCoins() {
-        try {
-            if (typeof window.ethereum !== 'undefined') {
-                await requestAccount()
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const signer = provider.getSigner();
-                const contract = new ethers.Contract(altTokenAddress, Token.abi, signer);
-                console.log(destinationAddress);
-                const transaction = await contract.transfer(destinationAddress, amount);
-                await transaction.wait();
-                console.log(`${amount} Coins successfully sent to ${userAccount}`);
-            }
-        } catch (err) {
-            setError(err.message);
-        }
-
     }
 
 
@@ -117,26 +100,7 @@ const customTokenTransaction = () => {
                     </div>
                 }
 
-                <input defaultValue={""} onChange={e => setDestinationAddress(e.target.value)} placeholder="Delivery address" class="simpleInput" />
-                <input defaultValue={""} onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
-
-                <ErrorMessage message={error} />
-
-                <div>
-                    <button onClick={requestAccount} type="button" class="simpleButton m-2 bg-cyan-600">
-                        Connect my wallet
-                    </button>
-
-                    <button onClick={getBalance} type="button" class="simpleButton m-2">
-                        Get my Balance
-                    </button>
-
-                    <button onClick={sendCoins} type="button" class="simpleButton m-2 bg-green-500">
-                        Send the token
-                    </button>
-
-
-                </div>
+                <MultiSend />
 
             </div>
 
