@@ -6,19 +6,15 @@ import DashboardCustomToken from '../components/DashboardCustomToken';
 import ErrorMessage from "../components/ErrorMessage";
 import MultiSend from '../components/MultiSend';
 import DashboardAltToken from '../components/DashboardAltToken';
-import DashboardWalletERC20 from '../components/DashboardWalletERC20';
-import DashboardTokenERC20 from '../components/DashboardTokenERC20';
 
 const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
-
-const customTokenTransaction = () => {
-
+const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     const [error, setError] = useState();
 
     const [userAccount, setUserAccount] = useState()
     const [amount, setAmount] = useState()
-    const [altTokenBalance, setAltTokenBalance] = useState()
+    const [erc20TokenBalance, setErc20TokenBalance] = useState()
     const [walletNetworkUse, setWalletNetworkUse] = useState()
     const [destinationAddress, setDestinationAddress] = useState()
 
@@ -39,14 +35,13 @@ const customTokenTransaction = () => {
                 const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
-                console.log(account);
                 const balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
                 console.log(destinationAddress);
 
                 balance = balance.toString();
                 setUserAccount(account);
-                setAltTokenBalance(balance);
+                setErc20TokenBalance(balance);
                 setWalletNetworkUse(network.name);
             }
         } catch (err) {
@@ -62,14 +57,12 @@ const customTokenTransaction = () => {
 
     return (
         <div>
-            <Navbar />
 
-            <DashboardTokenERC20 />
-
-            {/*
             <div className="flex flex-col justify-center justify-items-center justify-self-center content-center items-center bg-gray-100 p-4 m-4 shadow-lg dark:bg-gray-800">
 
-                {altTokenBalance ?
+
+
+                {erc20TokenBalance ?
                     <div>
                         <p class="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
                             Your wallet informations
@@ -91,7 +84,7 @@ const customTokenTransaction = () => {
                                     Your Alt Token balance :
                                 </p>
                                 <div class="flex items-end text-xs">
-                                    {altTokenBalance}
+                                    {erc20TokenBalance}
                                 </div>
                             </div>
 
@@ -107,21 +100,15 @@ const customTokenTransaction = () => {
                         </div>
                     </div>
                     : <div>
-                        <h2>En attente des informations de votre wallet...</h2>
+                        <h2>Waiting for information from your wallet...</h2>
                     </div>
                 }
 
-                <MultiSend />
-
             </div>
-
-            */}
-
-            <DashboardWalletERC20 />
 
 
         </div>
     )
 }
 
-export default customTokenTransaction;
+export default DashboardWalletERC20;
