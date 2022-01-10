@@ -125,10 +125,8 @@ const MultiSend = () => {
                 }
                 {multiDeliveryAddress.map((element, index) => (
                     <div className="form-inline" key={index}>
-                        <label>Delivery Address</label>
-                        <input type="text" name="deliveryAddress" value={element.deliveryAddress || ""} onChange={e => handleChange(index, e)} className="simpleInput" />
-                        <label>Amount</label>
-                        <input type="text" name="amount" value={element.amount || ""} onChange={e => handleChange(index, e)} class="simpleInput" />
+                        <input type="text" name="deliveryAddress" value={element.deliveryAddress || ""} onChange={e => handleChange(index, e)} className="simpleInput" placeholder="Delivery Address" />
+                        <input type="text" name="amount" value={element.amount || ""} onChange={e => handleChange(index, e)} class="simpleInput" placeholder="Amount" />
 
                         {
                             index ?
@@ -138,7 +136,7 @@ const MultiSend = () => {
                     </div>
                 ))}
                 <div className="button-section">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="button" onClick={() => addFormFields()}>Add</button>
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="button" onClick={() => addFormFields()}>Add Delivery Address</button>
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Send the token</button>
                 </div>
             </form >
