@@ -1,37 +1,31 @@
 import ErrorMessage from "../components/ErrorMessage";
 import { useState, useEffect } from "react";
+import { ethers } from 'ethers';
+import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
+import { getAddress } from "ethers/lib/utils";
 
 const MultiSend = () => {
 
+    const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
+
     const [error, setError] = useState();
-    const [formValues, setFormValues] = useState([{ deliveryAddress: "", amount: "" }])
+    const [multiDeliveryAddress, setMultiDeliveryAddress] = useState([{ deliveryAddress: "", amount: 0 }])
+    const [hasError, setHasError] = useState();
 
     /**
  * * Get account from metamask
  */
     async function requestAccount() {
+
         if (typeof window.ethereum == 'undefined') {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
         } else {
-            getBalance()
+            return (true);
         }
+
+
     }
 
-    async function getBalance() {
-        if (typeof window.ethereum !== 'undefined') {
-            const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
-            const balance = await contract.balanceOf(account);
-            const network = await provider.getNetwork();
-            console.log(destinationAddress);
-
-            balance = balance.toString();
-            setUserAccount(account);
-            setAltTokenBalance(balance);
-            setWalletNetworkUse(network.name);
-        }
-    }
 
     async function sendCoins() {
         try {
@@ -40,10 +34,19 @@ const MultiSend = () => {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const signer = provider.getSigner();
                 const contract = new ethers.Contract(altTokenAddress, Token.abi, signer);
-                console.log(destinationAddress);
-                const transaction = await contract.transfer(destinationAddress, amount);
-                await transaction.wait();
-                console.log(`${amount} Coins successfully sent to ${userAccount}`);
+                for (let i = 0; i < multiDeliveryAddress.length; i++) {
+                    let deliveryAddress = multiDeliveryAddress[i].deliveryAddress;
+                    console.log(deliveryAddress);
+                    if (isAddress(deliveryAddress)) {
+                        setHasError(false);
+                        const transaction = await contract.transfer(multiDeliveryAddress[i].deliveryAddress, multiDeliveryAddress[i].amount);
+                        //await transaction.wait();
+                        console.log(`${multiDeliveryAddress[i].amount} Coins successfully sent to ${multiDeliveryAddress[i].deliveryAddress}`);
+                    } else {
+                        setHasError("One of the distination addresses is not valid. Please check your entries.");
+                    }
+                }
+
             }
         } catch (err) {
             setError(err.message);
@@ -51,24 +54,41 @@ const MultiSend = () => {
     }
 
     let handleChange = (i, e) => {
-        let newFormValues = [...formValues];
+        let newFormValues = [...multiDeliveryAddress];
         newFormValues[i][e.target.name] = e.target.value;
-        setFormValues(newFormValues);
+        if (e.target.name == "amount") {
+            let amountToSend = parseInt(e.target.value);
+            if (isNaN(amountToSend)) {
+                setHasError("Error for the quantity of token requested. Please enter a integer number only.");
+            } else {
+                setHasError(null);
+
+            }
+        }
+        setMultiDeliveryAddress(newFormValues);
+
     }
 
     let addFormFields = () => {
-        setFormValues([...formValues, { name: "", email: "" }])
+        setMultiDeliveryAddress([...multiDeliveryAddress, { deliveryAddress: "", amount: "" }])
     }
 
     let removeFormFields = (i) => {
-        let newFormValues = [...formValues];
+        let newFormValues = [...multiDeliveryAddress];
         newFormValues.splice(i, 1);
-        setFormValues(newFormValues)
+        setMultiDeliveryAddress(newFormValues)
     }
 
     let handleSubmit = (event) => {
         event.preventDefault();
-        alert(JSON.stringify(formValues));
+        sendCoins();
+    }
+
+    function isAddress(address) {
+        try {
+            getAddress(address);
+        } catch (e) { return false; }
+        return true;
     }
 
     return (
@@ -97,12 +117,19 @@ const MultiSend = () => {
             */}
 
             <form onSubmit={handleSubmit}>
-                {formValues.map((element, index) => (
+                {
+                    hasError &&
+                    <div className="bg-red-300">
+                        <p>{hasError}</p>
+                    </div>
+                }
+                {multiDeliveryAddress.map((element, index) => (
                     <div className="form-inline" key={index}>
                         <label>Delivery Address</label>
-                        <input type="text" name="name" value={element.name || ""} onChange={e => handleChange(index, e)} className="simpleInput" />
+                        <input type="text" name="deliveryAddress" value={element.deliveryAddress || ""} onChange={e => handleChange(index, e)} className="simpleInput" />
                         <label>Amount</label>
-                        <input type="text" name="email" value={element.email || ""} onChange={e => handleChange(index, e)} class="simpleInput" />
+                        <input type="text" name="amount" value={element.amount || ""} onChange={e => handleChange(index, e)} class="simpleInput" />
+
                         {
                             index ?
                                 <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => removeFormFields(index)}>Remove</button>
