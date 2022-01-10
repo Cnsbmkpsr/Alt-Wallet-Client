@@ -43,7 +43,7 @@ const MultiSend = () => {
                         //await transaction.wait();
                         console.log(`${multiDeliveryAddress[i].amount} Coins successfully sent to ${multiDeliveryAddress[i].deliveryAddress}`);
                     } else {
-                        setHasError("One of the distination addresses is not valid. Please check your entries.");
+                        setHasError("One or many of the distination addresses is not valid. Please check your entries.");
                     }
                 }
 
