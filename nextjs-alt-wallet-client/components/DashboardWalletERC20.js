@@ -97,6 +97,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                             </div>
 
                         </div>
+                        <MultiSend />
                     </div>
                     : <div>
                         <h2>Waiting for information from your wallet...</h2>

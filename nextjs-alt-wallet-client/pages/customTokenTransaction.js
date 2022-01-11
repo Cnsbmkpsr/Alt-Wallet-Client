@@ -43,11 +43,6 @@ const customTokenTransaction = () => {
 
             <DashboardWalletERC20 erc20TokenAddress={tokenAddress} />
 
-            {
-                tokenAddress ?? <MultiSend />
-
-            }
-
 
         </div>
     )
