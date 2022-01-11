@@ -11,6 +11,7 @@ const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
 const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     const [error, setError] = useState();
+    const [tokenName, setTokenName] = useState();
 
     const [userAccount, setUserAccount] = useState()
     const [amount, setAmount] = useState()
@@ -36,11 +37,14 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 const contract = new ethers.Contract(erc20TokenAddress, Token.abi, provider)
                 const balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
+                const contractName = await contract.name();
+
 
                 balance = balance.toString();
                 setUserAccount(account);
                 setErc20TokenBalance(balance);
                 setWalletNetworkUse(network.name);
+                setTokenName(contractName);
 
             }
         } catch (err) {
@@ -80,7 +84,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
 
                             <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
-                                    Your Alt Token balance :
+                                    Your {tokenName} balance :
                                 </p>
                                 <div className="flex items-end text-xs">
                                     {erc20TokenBalance}
