@@ -11,17 +11,18 @@ import { getERC20Contract } from "../store/contractStore";
 const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
 const DashboardTokenERC20 = ({ childToParent }) => {
-
     const [error, setError] = useState();
-
     const [erc20TokenAddress, setErc20TokenAddress] = useState("");
     const [tokenName, setTokenName] = useState();
     const [tokenSupply, setTokenSupply] = useState();
+    console.log("oui")
     const [tokenOwnerAddress, setTokenOwnerAddress] = useState();
     const [tokenSymbol, setTokenSymbol] = useState();
     const [tokenNetwork, setTokenNetwork] = useState();
 
     async function getTokenInformation() {
+
+
 
         try {
             if (typeof window.ethereum !== "undefined") {
