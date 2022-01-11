@@ -24,7 +24,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
         if (typeof window.ethereum == 'undefined') {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
         } else {
-            getBalance()
+            getBalance();
         }
     }
 
@@ -33,7 +33,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
             if (typeof window.ethereum !== 'undefined') {
                 const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
+                const contract = new ethers.Contract(erc20TokenAddress, Token.abi, provider)
                 const balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
 
@@ -41,6 +41,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 setUserAccount(account);
                 setErc20TokenBalance(balance);
                 setWalletNetworkUse(network.name);
+
             }
         } catch (err) {
             console.log(err.message);
@@ -51,7 +52,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
 
     useEffect(() => {
         requestAccount();
-    }, []);
+    }, [erc20TokenAddress]);
 
     return (
         <div>
@@ -62,35 +63,35 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
 
                 {erc20TokenBalance ?
                     <div>
-                        <p class="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                        <p className="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
                             Your wallet informations
                         </p>
 
-                        <div class="dark:text-white">
+                        <div className="dark:text-white">
 
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                            <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
                                     Your wallet address :
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {userAccount}
                                 </div>
                             </div>
 
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                            <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
                                     Your Alt Token balance :
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {erc20TokenBalance}
                                 </div>
                             </div>
 
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                            <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
                                     Network connected :
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {walletNetworkUse}
                                 </div>
                             </div>

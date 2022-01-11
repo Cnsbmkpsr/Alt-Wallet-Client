@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import Navbar from "../components/Navbar";
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
@@ -21,65 +21,32 @@ const customTokenTransaction = () => {
     const [walletNetworkUse, setWalletNetworkUse] = useState()
     const [destinationAddress, setDestinationAddress] = useState()
 
+    const [tokenAddress, setTokenAddress] = useState();
+
+    const handleTokenChange = useCallback(
+        (tokenAddress) => {
+            setTokenAddress(tokenAddress);
+        },
+        [],
+    )
+    console.log(tokenAddress)
+
 
     return (
+
+
         <div>
             <Navbar />
 
-            <DashboardTokenERC20 />
-
-            {/*
-            <div className="flex flex-col justify-center justify-items-center justify-self-center content-center items-center bg-gray-100 p-4 m-4 shadow-lg dark:bg-gray-800">
-
-                {altTokenBalance ?
-                    <div>
-                        <p class="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
-                            Your wallet informations
-                        </p>
-
-                        <div class="dark:text-white">
-
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
-                                <p>
-                                    Your wallet address :
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {userAccount}
-                                </div>
-                            </div>
-
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
-                                <p>
-                                    Your Alt Token balance :
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {altTokenBalance}
-                                </div>
-                            </div>
-
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
-                                <p>
-                                    Network connected :
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {walletNetworkUse}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    : <div>
-                        <h2>En attente des informations de votre wallet...</h2>
-                    </div>
-                }
+            <DashboardTokenERC20 onTokenChange={handleTokenChange} />
 
 
-            </div>
+            <DashboardWalletERC20 erc20TokenAddress={tokenAddress} />
 
-            */}
+            {
+                tokenAddress ?? <MultiSend />
 
-
-            <DashboardWalletERC20 />
+            }
 
 
         </div>

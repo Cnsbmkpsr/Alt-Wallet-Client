@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ethers } from 'ethers';
 import Navbar from "../components/Navbar";
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
@@ -10,31 +10,28 @@ import { getERC20Contract } from "../store/contractStore";
 
 const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
-const DashboardTokenERC20 = ({ childToParent }) => {
+const DashboardTokenERC20 = ({ onTokenChange }) => {
     const [error, setError] = useState();
     const [erc20TokenAddress, setErc20TokenAddress] = useState("");
     const [tokenName, setTokenName] = useState();
     const [tokenSupply, setTokenSupply] = useState();
-    console.log("oui")
     const [tokenOwnerAddress, setTokenOwnerAddress] = useState();
     const [tokenSymbol, setTokenSymbol] = useState();
     const [tokenNetwork, setTokenNetwork] = useState();
 
+    const ref = useRef();
+
     async function getTokenInformation() {
-
-
-
         try {
             if (typeof window.ethereum !== "undefined") {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const signer = provider.getSigner();
-                const contract = getERC20Contract(erc20TokenAddress, signer);
+                const contract = getERC20Contract(ref?.current?.value, signer);
                 const contractAddress = contract.address;
                 const contractName = await contract.name();
                 const contractSupply = await contract.totalSupply();
                 //const contractOwner = await contract.owner();
                 const contractSymbol = await contract.symbol();
-                console.log(contractSymbol)
                 const contractProvider = await contract.provider;
                 const contractNetwork = await contractProvider.getNetwork();
 
@@ -42,10 +39,10 @@ const DashboardTokenERC20 = ({ childToParent }) => {
                 setErc20TokenAddress(contractAddress);
                 setTokenName(contractName);
                 contractSupply = contractSupply.toString();
-                console.log(contractSupply)
                 setTokenSupply(contractSupply);
                 //setTokenOwnerAddress(contractOwner);
                 setTokenSymbol(contractSymbol);
+                onTokenChange(contractAddress);
 
             }
         } catch (err) {
@@ -59,12 +56,13 @@ const DashboardTokenERC20 = ({ childToParent }) => {
         getTokenInformation();
     }
 
+
     return (
         <div>
             <div className="flex flex-col justify-center text-center">
 
                 <form onSubmit={handleSubmit}>
-                    <input type="text" name="deliveryAddress" className="simpleInput" placeholder="ERC20 Token Address" value={erc20TokenAddress} onChange={e => setErc20TokenAddress(e.target.value)} />
+                    <input type="text" name="deliveryAddress" className="simpleInput" placeholder="ERC20 Token Address" ref={ref} />
                     <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="button" onClick={() => handleSubmit()}>Rechercher le token ERC20</button>
                 </form>
 
