@@ -44,7 +44,6 @@ const DashboardCustomToken = () => {
             setTokenSupply(contractSupply.toNumber());
             setTokenOwnerAddress(contractOwner);
             setTokenSymbol(contractSymbol);
-
         }
     }
 

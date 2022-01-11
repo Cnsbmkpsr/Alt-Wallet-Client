@@ -6,6 +6,7 @@ import DashboardCustomToken from '../components/DashboardCustomToken';
 import ErrorMessage from "../components/ErrorMessage";
 import MultiSend from '../components/MultiSend';
 import DashboardAltToken from '../components/DashboardAltToken';
+import { getERC20Contract } from "../store/contractStore";
 
 const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
@@ -26,20 +27,23 @@ const DashboardTokenERC20 = ({ childToParent }) => {
             if (typeof window.ethereum !== "undefined") {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const signer = provider.getSigner();
-                const contract = new ethers.Contract(erc20TokenAddress, Token.abi, signer);
+                const contract = getERC20Contract(erc20TokenAddress, signer);
                 const contractAddress = contract.address;
                 const contractName = await contract.name();
                 const contractSupply = await contract.totalSupply();
-                const contractOwner = await contract.owner();
+                //const contractOwner = await contract.owner();
                 const contractSymbol = await contract.symbol();
+                console.log(contractSymbol)
                 const contractProvider = await contract.provider;
                 const contractNetwork = await contractProvider.getNetwork();
 
                 setTokenNetwork(contractNetwork.name);
                 setErc20TokenAddress(contractAddress);
                 setTokenName(contractName);
-                setTokenSupply(contractSupply.toNumber());
-                setTokenOwnerAddress(contractOwner);
+                contractSupply = contractSupply.toString();
+                console.log(contractSupply)
+                setTokenSupply(contractSupply);
+                //setTokenOwnerAddress(contractOwner);
                 setTokenSymbol(contractSymbol);
 
             }
@@ -108,7 +112,7 @@ const DashboardTokenERC20 = ({ childToParent }) => {
                                     Address of the token transmitter
                                 </p>
                                 <div class="flex items-end text-xs">
-                                    {tokenOwnerAddress}
+                                    NULL
                                 </div>
                             </div>
                         </div>
