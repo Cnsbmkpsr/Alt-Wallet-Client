@@ -9,7 +9,7 @@ import DashboardAltToken from '../components/DashboardAltToken';
 
 const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
-const DashboardTokenERC20 = () => {
+const DashboardTokenERC20 = ({ childToParent }) => {
 
     const [error, setError] = useState();
 

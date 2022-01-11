@@ -16,7 +16,6 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     const [amount, setAmount] = useState()
     const [erc20TokenBalance, setErc20TokenBalance] = useState()
     const [walletNetworkUse, setWalletNetworkUse] = useState()
-    const [destinationAddress, setDestinationAddress] = useState()
 
     /**
      * * Get account from metamask
@@ -37,7 +36,6 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
                 const balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
-                console.log(destinationAddress);
 
                 balance = balance.toString();
                 setUserAccount(account);

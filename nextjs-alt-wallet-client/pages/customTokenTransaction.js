@@ -9,12 +9,11 @@ import DashboardAltToken from '../components/DashboardAltToken';
 import DashboardWalletERC20 from '../components/DashboardWalletERC20';
 import DashboardTokenERC20 from '../components/DashboardTokenERC20';
 
-const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
-
 
 const customTokenTransaction = () => {
 
     const [error, setError] = useState();
+    const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
     const [userAccount, setUserAccount] = useState()
     const [amount, setAmount] = useState()
@@ -22,43 +21,6 @@ const customTokenTransaction = () => {
     const [walletNetworkUse, setWalletNetworkUse] = useState()
     const [destinationAddress, setDestinationAddress] = useState()
 
-    /**
-     * * Get account from metamask
-     */
-    async function requestAccount() {
-        if (typeof window.ethereum == 'undefined') {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-        } else {
-            getBalance()
-        }
-    }
-
-    async function getBalance() {
-        try {
-            if (typeof window.ethereum !== 'undefined') {
-                const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const contract = new ethers.Contract(altTokenAddress, Token.abi, provider)
-                console.log(account);
-                const balance = await contract.balanceOf(account);
-                const network = await provider.getNetwork();
-                console.log(destinationAddress);
-
-                balance = balance.toString();
-                setUserAccount(account);
-                setAltTokenBalance(balance);
-                setWalletNetworkUse(network.name);
-            }
-        } catch (err) {
-            console.log(err.message);
-        }
-
-    }
-
-
-    useEffect(() => {
-        requestAccount();
-    }, []);
 
     return (
         <div>
@@ -111,11 +73,11 @@ const customTokenTransaction = () => {
                     </div>
                 }
 
-                <MultiSend />
 
             </div>
 
             */}
+
 
             <DashboardWalletERC20 />
 
