@@ -135,7 +135,7 @@ const DashboardApi = ({ props }) => {
                                                             Hash
                                                         </th>
                                                         <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
-                                                            Gas Price (ETH)
+                                                            Gas Price (Wei)
                                                         </th>
                                                         <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             value (ETH)
@@ -191,17 +191,6 @@ const DashboardApi = ({ props }) => {
                                                                 </span>
                                                             </td>
                                                         </tr>
-
-
-                                                        /*
-                                                        <div>
-                                                            <p>Transaction number: {transaction.nonce - 1}</p>
-                                                            <p>Transaction hash: {transaction.hash}</p>
-                                                            <p className="bg-blue-400">Transaction index: {transaction.transactionIndex}</p>
-                                                            <p>Transaction done at {transaction.timestamp}</p>
-                                                            <p >Transaction done to {transaction.to}</p>
-                                                        </div>
-                                                        */
                                                     )}
                                                 </tbody>
                                             </table>
