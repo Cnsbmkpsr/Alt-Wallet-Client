@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
 import { getAddress } from "ethers/lib/utils";
 
-const MultiSend = () => {
+const MultiSend = ({ tokenAddress }) => {
 
     const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
 
@@ -22,10 +22,7 @@ const MultiSend = () => {
         } else {
             return (true);
         }
-
-
     }
-
 
     async function sendCoins() {
         try {
@@ -33,7 +30,7 @@ const MultiSend = () => {
                 await requestAccount()
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const signer = provider.getSigner();
-                const contract = new ethers.Contract(altTokenAddress, Token.abi, signer);
+                const contract = new ethers.Contract(tokenAddress, Token.abi, signer);
                 for (let i = 0; i < multiDeliveryAddress.length; i++) {
                     let deliveryAddress = multiDeliveryAddress[i].deliveryAddress;
                     console.log(deliveryAddress);
@@ -46,7 +43,6 @@ const MultiSend = () => {
                         setHasError("One or many of the distination addresses is not valid. Please check your entries.");
                     }
                 }
-
             }
         } catch (err) {
             setError(err.message);
@@ -93,29 +89,6 @@ const MultiSend = () => {
 
     return (
         <div>
-            {/*
-            <input defaultValue={""} onChange={e => setDestinationAddress(e.target.value)} placeholder="Delivery address" class="simpleInput" />
-            <input defaultValue={""} onChange={e => setAmount(e.target.value)} placeholder="Amount" class="simpleInput" />
-
-            <ErrorMessage message={error} />
-
-            <div>
-                <button onClick={requestAccount} type="button" class="simpleButton m-2 bg-cyan-600">
-                    Connect my wallet
-                </button>
-
-                <button onClick={getBalance} type="button" class="simpleButton m-2">
-                    Get my Balance
-                </button>
-
-                <button onClick={sendCoins} type="button" class="simpleButton m-2 bg-green-500">
-                    Send the token
-                </button>
-
-
-            </div>
-            */}
-
             <form onSubmit={handleSubmit}>
                 {
                     hasError &&

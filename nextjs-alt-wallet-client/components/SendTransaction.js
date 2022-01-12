@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import Dashboard from './Dashboard';
 import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
 import DashboardApi from './DashboardApi';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const SendTransaction = () => {
+    const [walletAddress, setWalletAddress] = useState();
 
     const startPayment = async ({ setError, setTxs, ether, addr }) => {
         try {
@@ -44,14 +45,22 @@ const SendTransaction = () => {
         });
     };
 
+
+    const handleWalletAddress = useCallback(
+        (walletAddress) => {
+            setWalletAddress(walletAddress);
+        },
+        [],
+    )
+
     return (
         <div>
 
-            <form className="m-4 gb-gray-600" onSubmit={handleSubmit}>
-                <div className="credit-card w-full lg:w-1/2 sm:w-auto shadow-lg mx-auto rounded-xl bg-white">
+            <form className="m-2 gb-gray-600 " onSubmit={handleSubmit}>
+                <div className="credit-card w-full lg:w-2/3 sm:w-auto shadow-lg mx-auto rounded-xl bg-gray-100">
                     <main className="mt-4 p-4">
 
-                        <Dashboard />
+                        <Dashboard onWalletAddressChange={handleWalletAddress} />
 
                         <h1 className="text-xl font-semibold text-gray-700 text-center">
                             Send ETH payment

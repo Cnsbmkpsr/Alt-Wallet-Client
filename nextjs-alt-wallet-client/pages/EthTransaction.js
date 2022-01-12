@@ -4,8 +4,18 @@ import DashboardApi from '../components/DashboardApi';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import SendTransaction from "../components/SendTransaction";
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const EthTransaction = () => {
+    const [walletAddress, setWalletAddress] = useState();
+
+    const handleWalletAddress = useCallback(
+        (walletAddress) => {
+            setWalletAddress(walletAddress);
+        },
+        [],
+    )
+
     return (
         <div>
             <Navbar />

@@ -56,72 +56,73 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
         getTokenInformation();
     }
 
-
     return (
         <div>
             <div className="flex flex-col justify-center text-center">
+                <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
 
-                <form onSubmit={handleSubmit}>
-                    <input type="text" name="deliveryAddress" className="simpleInput" placeholder="ERC20 Token Address" ref={ref} />
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="button" onClick={() => handleSubmit()}>Rechercher le token ERC20</button>
-                </form>
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" name="deliveryAddress" className="simpleInput" placeholder="ERC20 Token Address" ref={ref} />
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="button" onClick={() => handleSubmit()}>Rechercher le token ERC20</button>
+                    </form>
 
-                {tokenName ?
+                    {tokenName ?
 
-                    <div class="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-                        <p class="text-lg w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
-                            Token informations for {tokenName}
-                        </p>
+                        <div>
+                            <p class="text-lg w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                                Token informations for {tokenName}
+                            </p>
 
-                        <div class="dark:text-white">
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
-                                <p>
-                                    Token address
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {erc20TokenAddress}
+                            <div class="dark:text-white">
+                                <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
+                                    <p>
+                                        Token address
+                                    </p>
+                                    <div class="flex items-end text-xs">
+                                        {erc20TokenAddress}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
-                                <p>
-                                    Network name on which the token is deployed
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {tokenNetwork}
+                                <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
+                                    <p>
+                                        Network name on which the token is deployed
+                                    </p>
+                                    <div class="flex items-end text-xs">
+                                        {tokenNetwork}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
-                                <p>
-                                    Total supply of the token
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {tokenSupply}
+                                <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                    <p>
+                                        Total supply of the token
+                                    </p>
+                                    <div class="flex items-end text-xs">
+                                        {tokenSupply}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center mb-2 pb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
-                                <p>
-                                    Token symbol
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    {tokenSymbol}
+                                <div class="flex items-center mb-2 pb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                                    <p>
+                                        Token symbol
+                                    </p>
+                                    <div class="flex items-end text-xs">
+                                        {tokenSymbol}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center text-sm space-x-12 md:space-x-24 justify-between">
-                                <p>
-                                    Address of the token transmitter
-                                </p>
-                                <div class="flex items-end text-xs">
-                                    NULL
+                                <div class="flex items-center text-sm space-x-12 md:space-x-24 justify-between">
+                                    <p>
+                                        Address of the token transmitter
+                                    </p>
+                                    <div class="flex items-end text-xs">
+                                        NULL
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    : <div>
-                        <h2>Attempt to retrieve information from ERC20 Token...</h2>
-                        <h2>ALT Token address for testing : 0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034</h2>
-                        <h2>Make sure you are connected to the Test Rinkeby network</h2>
-                    </div>
-                }
+                        : <div>
+                            <h2>Attempt to retrieve information from ERC20 Token...</h2>
+                            <h2>ALT Token address for testing : 0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034</h2>
+                            <h2>Make sure you are connected to the Test Rinkeby network</h2>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     )

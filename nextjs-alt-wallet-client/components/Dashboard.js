@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 
 let APIConnexion = false;
 
-export default function Dashboard() {
+export default function Dashboard({ onWalletAddressChange }) {
 
     const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
@@ -20,6 +20,7 @@ export default function Dashboard() {
             const signer = provider.getSigner();
             let signerAddress = (await signer.getAddress());
             setSignerAddress(signerAddress);
+            onWalletAddressChange(signerAddress);
 
             let signerBalance = (await ethers.utils.formatEther(await signer.getBalance()));
             setSignerBalance(signerBalance);

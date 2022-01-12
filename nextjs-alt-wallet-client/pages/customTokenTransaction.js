@@ -29,7 +29,6 @@ const customTokenTransaction = () => {
         },
         [],
     )
-    console.log(tokenAddress)
 
 
     return (
