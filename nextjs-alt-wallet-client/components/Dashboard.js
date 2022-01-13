@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 
-
-let APIConnexion = false;
-
 export default function Dashboard({ onWalletAddressChange }) {
 
     const [networkName, setNetworkName] = useState();

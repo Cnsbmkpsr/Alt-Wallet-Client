@@ -1,5 +1,5 @@
 import Dashboard from './Dashboard';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { utils } from 'ethers';
 import { ethers } from 'ethers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -83,17 +83,20 @@ const DashboardApi = ({ props }) => {
         }
     }
 
-    const getTransactionHistory = async (walletAddress) => {
-        try {
-            let params = "publicKey=" + walletAddress
-            const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
-            setTransactionsHistory(apiResponse);
-            console.log(apiResponse[0])
+    const getTransactionHistory = useCallback(
+        async (walletAddress) => {
+            try {
+                let params = "publicKey=" + walletAddress
+                const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
+                setTransactionsHistory(apiResponse);
+                console.log(apiResponse[0])
 
-        } catch (err) {
-            throw new Error(err);                    //console.log(err);
-        }
-    }
+            } catch (err) {
+                throw new Error(err);                    //console.log(err);
+            }
+        },
+        [],
+    )
 
     useEffect(() => {
         try {

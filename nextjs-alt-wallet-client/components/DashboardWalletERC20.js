@@ -1,20 +1,12 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import Navbar from "../components/Navbar";
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
-import DashboardCustomToken from '../components/DashboardCustomToken';
-import ErrorMessage from "../components/ErrorMessage";
 import MultiSend from '../components/MultiSend';
-import DashboardAltToken from '../components/DashboardAltToken';
-
-const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
+import PropTypes from 'prop-types';
 
 const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
-    const [error, setError] = useState();
     const [tokenName, setTokenName] = useState();
-
     const [userAccount, setUserAccount] = useState()
-    const [amount, setAmount] = useState()
     const [erc20TokenBalance, setErc20TokenBalance] = useState()
     const [walletNetworkUse, setWalletNetworkUse] = useState()
 
@@ -35,10 +27,9 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const contract = new ethers.Contract(erc20TokenAddress, Token.abi, provider)
-                const balance = await contract.balanceOf(account);
+                let balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
                 const contractName = await contract.name();
-
 
                 balance = balance.toString();
                 setUserAccount(account);
@@ -109,6 +100,10 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
 
         </div>
     )
+}
+
+DashboardWalletERC20.propTypes = {
+    erc20TokenAddress: PropTypes.string
 }
 
 export default DashboardWalletERC20;
