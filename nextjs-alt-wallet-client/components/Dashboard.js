@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import PropTypes from "prop-types";
 
-export default function Dashboard({ onWalletAddressChange }) {
+export default function Dashboard({ walletAddress }) {
 
     const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
@@ -17,7 +18,7 @@ export default function Dashboard({ onWalletAddressChange }) {
             const signer = provider.getSigner();
             let signerAddress = (await signer.getAddress());
             setSignerAddress(signerAddress);
-            onWalletAddressChange(signerAddress);
+            walletAddress(signerAddress);
 
             let signerBalance = (await ethers.utils.formatEther(await signer.getBalance()));
             setSignerBalance(signerBalance);
@@ -69,3 +70,6 @@ export default function Dashboard({ onWalletAddressChange }) {
     )
 }
 
+Dashboard.propTypes = {
+    walletAddress: PropTypes.string
+}

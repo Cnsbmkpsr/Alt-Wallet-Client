@@ -1,33 +1,26 @@
-import Dashboard from './Dashboard';
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { utils } from 'ethers';
 import { ethers } from 'ethers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard } from "react-icons/bi"
 
-const DashboardApi = ({ props }) => {
+const DashboardApi = () => {
 
     const [apiStatus, setApiStatus] = useState(null);
     const apiUrl = "http://34.78.56.8:7546/"
-    const apiConnexionTimeout = 10;
+    let apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
-
-    const [copyState, setCopyState] = useState(null);
-
-    const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
-    const [signerBalance, setSignerBalance] = useState();
-    const [signerWalletTransactionCount, setSignerWalletTransactionCount] = useState();
 
-    const apiRequestBuilder = async (ressourcePath, type, params, responseType) => {
-        return new Promise((resolve, reject) => {
+    const apiRequestBuilder = useCallback(async (ressourcePath, type, params, responseType) => {
+        return new Promise((resolve) => {
             try {
                 var request = new XMLHttpRequest();
                 ressourcePath = apiUrl + ressourcePath;
                 request.open(type, ressourcePath + "?" + params, true);
                 request.timeout = 10000;
                 request.responseType = responseType;
-                request.onload = function (e) {
+                request.onload = function () {
                     if (this.status == 200) {
                         apiConnexionTimeout = 10;
                         resolve(this.response);
@@ -43,7 +36,7 @@ const DashboardApi = ({ props }) => {
                 throw new Error(err);
             }
         })
-    }
+    }, [])
 
     const testConnexionToApi = async () => {
         try {
@@ -53,7 +46,6 @@ const DashboardApi = ({ props }) => {
             }
             const apiResponse = await apiRequestBuilder("", "GET", "", "text");
             setApiStatus(apiResponse);
-
         } catch (err) {
             throw new Error(err);
         }
@@ -62,22 +54,11 @@ const DashboardApi = ({ props }) => {
     const getWalletInformation = async () => {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            let networkName = (await provider.getNetwork()).name;
-            setNetworkName(networkName);
-
             const signer = provider.getSigner();
-            let signerAddress = (await signer.getAddress());
+            let walletAddress = (await signer.getAddress());
             setSignerAddress(signerAddress);
-            getTransactionHistory(signerAddress);
-
-            let signerBalance = (await ethers.utils.formatEther(await signer.getBalance()));
-            setSignerBalance(signerBalance);
-
-            let signerWalletTransactionCount = await signer.getTransactionCount();
-            setSignerWalletTransactionCount(signerWalletTransactionCount);
-
+            getTransactionHistory(walletAddress);
             await window.ethereum.send("eth_requestAccounts");
-
         } catch (err) {
             console.log(err);
         }
@@ -95,7 +76,7 @@ const DashboardApi = ({ props }) => {
                 throw new Error(err);                    //console.log(err);
             }
         },
-        [],
+        [apiRequestBuilder],
     )
 
     useEffect(() => {

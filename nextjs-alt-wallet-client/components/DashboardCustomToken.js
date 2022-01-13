@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
@@ -53,7 +52,6 @@ const DashboardCustomToken = () => {
 
     return (
         <div>
-            <DashboardAltToken />
         </div>
     )
 }

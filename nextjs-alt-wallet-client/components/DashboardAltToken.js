@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
@@ -56,49 +55,49 @@ const DashboardAltToken = () => {
             <div className="flex flex-col justify-center text-center">
                 {tokenAddress ?
 
-                    <div class="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-                        <p class="text-lg w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
+                    <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
+                        <p className="text-lg w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
                             Token informations for {tokenName}
                         </p>
 
-                        <div class="dark:text-white">
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
+                        <div className="dark:text-white">
+                            <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
                                 <p>
                                     Token address
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {tokenAddress}
                                 </div>
                             </div>
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
+                            <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-100">
                                 <p>
                                     Network name on which the token is deployed
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {tokenNetwork}
                                 </div>
                             </div>
-                            <div class="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                            <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
                                     Total supply of the token
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {tokenSupply}
                                 </div>
                             </div>
-                            <div class="flex items-center mb-2 pb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
+                            <div className="flex items-center mb-2 pb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
                                     Token symbol
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {tokenSymbol}
                                 </div>
                             </div>
-                            <div class="flex items-center text-sm space-x-12 md:space-x-24 justify-between">
+                            <div className="flex items-center text-sm space-x-12 md:space-x-24 justify-between">
                                 <p>
                                     Address of the token transmitter
                                 </p>
-                                <div class="flex items-end text-xs">
+                                <div className="flex items-end text-xs">
                                     {tokenOwnerAddress}
                                 </div>
                             </div>
