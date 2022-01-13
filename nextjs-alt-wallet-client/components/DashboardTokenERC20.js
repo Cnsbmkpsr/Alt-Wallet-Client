@@ -38,7 +38,7 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
             }
 
         },
-        [handleSubmit, onTokenChange],
+        [onTokenChange],
     )
 
     let handleSubmit = useCallback(() => {

@@ -105,29 +105,29 @@ const DashboardApi = () => {
                 {
                     transactionsHistory ?
                         <div>
-                            <div class="container mx-auto px-4 sm:px-8">
-                                <div class="py-8 ">
+                            <div className="container mx-auto px-4 sm:px-8">
+                                <div className="py-8 ">
                                     <div>
-                                        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                            <table class="min-w-full leading-normal">
+                                        <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                            <table className="min-w-full leading-normal">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             Index
                                                         </th>
-                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                             Hash
                                                         </th>
-                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                             Gas Price (Wei)
                                                         </th>
-                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             value (ETH)
                                                         </th>
-                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                             timestamp
                                                         </th>
-                                                        <th scope="col" class="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                             Status
                                                         </th>
                                                     </tr>
@@ -135,13 +135,13 @@ const DashboardApi = () => {
                                                 <tbody>
                                                     {transactionsHistory.map((transaction) =>
                                                         <tr>
-                                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
-                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                            <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                                                <p className="text-gray-900 whitespace-no-wrap">
                                                                     {transaction.nonce - 1}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p class="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <p className="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
                                                                     {transaction.hash.substring(0, 4)} ...                               {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
                                                                     <CopyToClipboard
 
@@ -150,26 +150,26 @@ const DashboardApi = () => {
                                                                     </CopyToClipboard>
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <p className="text-gray-900 whitespace-no-wrap">
                                                                     {utils.formatEther(transaction.gasPrice)}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <p className="text-gray-900 whitespace-no-wrap">
                                                                     {utils.formatEther(transaction.value)}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <p className="text-gray-900 whitespace-no-wrap">
                                                                     {new Date(transaction.timestamp * 1000).getFullYear()}/{new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}
                                                                 </p>
                                                             </td>
-                                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                    <span aria-hidden="true" class="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                                    <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                                                                     </span>
-                                                                    <span class="relative">
+                                                                    <span className="relative">
                                                                         Success
                                                                     </span>
                                                                 </span>

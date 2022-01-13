@@ -60,7 +60,7 @@ const SendTransaction = () => {
                 <div className="credit-card w-full lg:w-2/3 sm:w-auto shadow-lg mx-auto rounded-xl bg-gray-100">
                     <main className="mt-4 p-4">
 
-                        <Dashboard onWalletAddressChange={handleWalletAddress} />
+                        <Dashboard walletAddress={handleWalletAddress} />
 
                         <h1 className="text-xl font-semibold text-gray-700 text-center">
                             Send ETH payment
