@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { getERC20Contract } from "../store/contractStore";
 import PropTypes from 'prop-types';

@@ -12,6 +12,7 @@ const DashboardApi = () => {
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
 
+
     const apiRequestBuilder = useCallback(async (ressourcePath, type, params, responseType) => {
         return new Promise((resolve) => {
             try {
@@ -134,7 +135,7 @@ const DashboardApi = () => {
                                                 </thead>
                                                 <tbody>
                                                     {transactionsHistory.map((transaction) =>
-                                                        <tr>
+                                                        <tr key={transaction.hash}>
                                                             <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                                 <p className="text-gray-900 whitespace-no-wrap">
                                                                     {transaction.nonce - 1}
@@ -145,7 +146,7 @@ const DashboardApi = () => {
                                                                     {transaction.hash.substring(0, 4)} ...                               {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
                                                                     <CopyToClipboard
 
-                                                                        onCopy={() => setCopyState({ copied: true })} text={transaction.hash}>
+                                                                        text={transaction.hash}>
                                                                         <BiClipboard />
                                                                     </CopyToClipboard>
                                                                 </p>

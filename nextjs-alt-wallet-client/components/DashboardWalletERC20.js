@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
 import MultiSend from '../components/MultiSend';
@@ -13,15 +13,19 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     /**
      * * Get account from metamask
      */
-    async function requestAccount() {
-        if (typeof window.ethereum == 'undefined') {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-        } else {
-            getBalance();
-        }
-    }
+    const requestAccount = useCallback(
+        () => {
+            if (typeof window.ethereum == 'undefined') {
+                window.ethereum.request({ method: 'eth_requestAccounts' });
+            } else {
+                getBalance();
+            }
+        },
+        [getBalance],
+    )
 
-    async function getBalance() {
+
+    const getBalance = useCallback(async () => {
         try {
             if (typeof window.ethereum !== 'undefined') {
                 const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -36,18 +40,18 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 setErc20TokenBalance(balance);
                 setWalletNetworkUse(network.name);
                 setTokenName(contractName);
-
             }
         } catch (err) {
             console.log(err.message);
         }
-
-    }
+    },
+        [erc20TokenAddress],
+    )
 
 
     useEffect(() => {
         requestAccount();
-    }, [erc20TokenAddress]);
+    }, [erc20TokenAddress, requestAccount]);
 
     return (
         <div>
