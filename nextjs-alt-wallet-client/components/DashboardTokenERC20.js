@@ -9,6 +9,7 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
     const [tokenSupply, setTokenSupply] = useState();
     const [tokenSymbol, setTokenSymbol] = useState();
     const [tokenNetwork, setTokenNetwork] = useState();
+    const [hasError, setHasError] = useState();
     const ref = useRef();
 
     const getTokenInformation = useCallback(
@@ -32,8 +33,10 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
                     setTokenSupply(contractSupply);
                     setTokenSymbol(contractSymbol);
                     onTokenChange(contractAddress);
+                    setHasError(null);
                 }
             } catch (err) {
+                setHasError(err.message);
                 console.log(err.message);
             }
 
@@ -107,6 +110,11 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
                             <h2>Attempt to retrieve information from ERC20 Token...</h2>
                             <h2>ALT Token address for testing : 0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034</h2>
                             <h2>Make sure you are connected to the Test Rinkeby network</h2>
+                        </div>
+                    }
+                    {hasError &&
+                        <div className="bg-red-300 text-white">
+                            {hasError}
                         </div>
                     }
                 </div>

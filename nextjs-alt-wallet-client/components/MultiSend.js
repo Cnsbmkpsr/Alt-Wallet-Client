@@ -97,20 +97,20 @@ const MultiSend = ({ tokenAddress }) => {
                     </div>
                 }
                 {multiDeliveryAddress.map((element, index) => (
-                    <div className="form-inline" key={index}>
+                    <div className="form-inline content-around p-1" key={index}>
                         <input type="text" name="deliveryAddress" value={element.deliveryAddress || ""} onChange={e => handleChange(index, e)} className="simpleInput" placeholder="Delivery Address" />
-                        <input type="text" name="amount" value={element.amount || ""} onChange={e => handleChange(index, e)} class="simpleInput" placeholder="Amount" />
+                        <input type="text" name="amount" value={element.amount || ""} onChange={e => handleChange(index, e)} className="simpleInput" placeholder="Amount" />
 
                         {
                             index ?
-                                <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => removeFormFields(index)}>Remove</button>
+                                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => removeFormFields(index)}>Remove</button>
                                 : null
                         }
                     </div>
                 ))}
-                <div className="button-section">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="button" onClick={() => addFormFields()}>Add Delivery Address</button>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Send the token</button>
+                <div className="flex justify-center">
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold m-2 py-2 px-4 rounded" type="button" onClick={() => addFormFields()}>Add Delivery Address</button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold m-2 py-2 px-4 rounded" type="submit">Send the token</button>
                 </div>
             </form >
         </div >
