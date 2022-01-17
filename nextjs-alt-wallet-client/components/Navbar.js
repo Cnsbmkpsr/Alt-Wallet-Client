@@ -1,7 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Disclosure } from '@headlessui/react'
 import Link from 'next/link'
 
 const navigation = [
@@ -17,7 +15,7 @@ function classNames(...classes) {
 export default function Navbar() {
     return (
         <Disclosure as="nav" className="bg-gray-800">
-            {({ open }) => (
+            {() => (
                 <>
                     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                         <div className="relative flex items-center content-center justify-between h-16">
@@ -42,6 +40,7 @@ export default function Navbar() {
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
                                             <Link href={item.href}
+                                                key={item.href}
                                             >
                                                 <a
                                                     key={item.name}

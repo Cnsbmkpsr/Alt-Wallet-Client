@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import PropTypes from "prop-types";
 
@@ -9,7 +9,7 @@ export default function Dashboard({ walletAddress }) {
     const [signerBalance, setSignerBalance] = useState();
     const [signerWalletTransactionCount, setSignerWalletTransactionCount] = useState();
 
-    const getWalletInformation = async () => {
+    const getWalletInformation = useCallback(async () => {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             let networkName = (await provider.getNetwork()).name;
@@ -20,7 +20,7 @@ export default function Dashboard({ walletAddress }) {
             setSignerAddress(signerAddress);
             walletAddress(signerAddress);
 
-            let signerBalance = (await ethers.utils.formatEther(await signer.getBalance()));
+            let signerBalance = ethers.utils.formatEther(await signer.getBalance());
             setSignerBalance(signerBalance);
 
             let signerWalletTransactionCount = await signer.getTransactionCount();
@@ -31,13 +31,16 @@ export default function Dashboard({ walletAddress }) {
         } catch (err) {
             console.log(err);
         }
-    }
+    },
+        [],
+    )
+
 
     useEffect(() => {
         setInterval(getWalletInformation, 1000);
         getWalletInformation();
 
-    }, []);
+    }, [getWalletInformation]);
 
 
 
