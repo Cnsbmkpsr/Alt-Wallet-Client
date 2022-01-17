@@ -7,7 +7,8 @@ import { BiClipboard } from "react-icons/bi"
 const DashboardApi = () => {
 
     const [apiStatus, setApiStatus] = useState(null);
-    const apiUrl = "http://34.78.56.8:7546/"
+    //    const apiUrl = "http://34.78.56.8:7546/"
+    const apiUrl = "http://localhost:7546/"
     let apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
@@ -58,7 +59,9 @@ const DashboardApi = () => {
             const signer = provider.getSigner();
             let walletAddress = (await signer.getAddress());
             setSignerAddress(signerAddress);
-            getTransactionHistory(walletAddress);
+            let networkProvider = await provider.getNetwork();
+            networkProvider = networkProvider.name;
+            getTransactionHistory(walletAddress, networkProvider);
             await window.ethereum.send("eth_requestAccounts");
         } catch (err) {
             console.log(err);
@@ -66,13 +69,12 @@ const DashboardApi = () => {
     }
 
     const getTransactionHistory = useCallback(
-        async (walletAddress) => {
+        async (walletAddress, networkProvider) => {
             try {
-                let params = "publicKey=" + walletAddress
+                let params = "publicKey=" + walletAddress + "&provider=" + networkProvider
                 const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
                 setTransactionsHistory(apiResponse);
                 console.log(apiResponse[0])
-
             } catch (err) {
                 throw new Error(err);                    //console.log(err);
             }
