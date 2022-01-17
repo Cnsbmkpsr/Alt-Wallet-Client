@@ -3,12 +3,13 @@ import { utils } from 'ethers';
 import { ethers } from 'ethers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard } from "react-icons/bi"
+import PropTypes from 'prop-types';
 
-const DashboardApi = () => {
+const DashboardApi = ({ walletAddress }) => {
 
     const [apiStatus, setApiStatus] = useState(null);
-    //    const apiUrl = "http://34.78.56.8:7546/"
-    const apiUrl = "http://localhost:7546/"
+    const apiUrl = "http://34.78.56.8:7546/"
+    //const apiUrl = "http://localhost:7546/"
     let apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
@@ -40,8 +41,9 @@ const DashboardApi = () => {
         })
     }, [])
 
-    const testConnexionToApi = async () => {
+    const testConnexionToApi = useCallback(async () => {
         try {
+
             apiConnexionTimeout -= 1;
             if (apiConnexionTimeout <= 0) {
                 setApiStatus(null);
@@ -51,13 +53,30 @@ const DashboardApi = () => {
         } catch (err) {
             throw new Error(err);
         }
-    }
+    },
+        [],
+    )
 
-    const getWalletInformation = async () => {
+    const getTransactionHistory = useCallback(
+        async (walletAddress, networkProvider) => {
+            try {
+                let params = "publicKey=" + walletAddress + "&provider=" + networkProvider
+                const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
+                setTransactionsHistory(apiResponse);
+                //console.log(apiResponse[0])
+            } catch (err) {
+                console.log(err);
+                throw new Error(err);
+            }
+        },
+        [apiRequestBuilder, walletAddress],
+    )
+
+    const getWalletInformation = useCallback(async () => {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            let walletAddress = (await signer.getAddress());
+            //const signer = provider.getSigner();
+            //let walletAddress = (await signer.getAddress());
             setSignerAddress(signerAddress);
             let networkProvider = await provider.getNetwork();
             networkProvider = networkProvider.name;
@@ -66,20 +85,8 @@ const DashboardApi = () => {
         } catch (err) {
             console.log(err);
         }
-    }
-
-    const getTransactionHistory = useCallback(
-        async (walletAddress, networkProvider) => {
-            try {
-                let params = "publicKey=" + walletAddress + "&provider=" + networkProvider
-                const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
-                setTransactionsHistory(apiResponse);
-                console.log(apiResponse[0])
-            } catch (err) {
-                throw new Error(err);                    //console.log(err);
-            }
-        },
-        [apiRequestBuilder],
+    },
+        [getTransactionHistory, signerAddress, walletAddress],
     )
 
     useEffect(() => {
@@ -88,15 +95,16 @@ const DashboardApi = () => {
             testConnexionToApi();
             setInterval(testConnexionToApi, 1000);
 
+
         } catch (err) {
             console.log(err);
         }
-    }, []);
+    }, [getWalletInformation, testConnexionToApi, walletAddress]);
 
     return (
         <div className="flex flex-col justify-center text-center">
             <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-                <h1 className="text-4xl">API Dashboard</h1>
+                <h1 className="text-4xl">Transaction history</h1>
                 {
                     !apiStatus &&
                     <h1 className="bg-red-600">API Status: Offline</h1>
@@ -196,6 +204,10 @@ const DashboardApi = () => {
             </div>
         </div>
     )
+}
+
+DashboardApi.propTypes = {
+    walletAddress: PropTypes.string
 }
 
 export default DashboardApi;

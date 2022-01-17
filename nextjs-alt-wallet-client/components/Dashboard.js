@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 export default function Dashboard({ walletAddress }) {
 
+    // TODO: Factoriser les useState en 1 seul objet pour éviter de reload le component de nombreuses fois
     const [networkName, setNetworkName] = useState();
     const [signerAddress, setSignerAddress] = useState();
     const [signerBalance, setSignerBalance] = useState();
@@ -32,7 +33,7 @@ export default function Dashboard({ walletAddress }) {
             console.log(err);
         }
     },
-        [],
+        [walletAddress],
     )
 
 
@@ -46,17 +47,17 @@ export default function Dashboard({ walletAddress }) {
 
     return (
         <div className="text-center text-gray-800">
-            <h1>Bienvenue sur votre Dashboard cliente ETH</h1>
+            <h1>Welcome to your Dashboard to interact with the Ethereum network</h1>
 
 
             {
                 networkName &&
-                <h1>Network: {networkName}</h1>
+                <h1>Currently connected network: {networkName}</h1>
             }
 
             {
                 signerAddress &&
-                <h1>Wallet address: {signerAddress}</h1>
+                <h1>Your publique Wallet address: {signerAddress}</h1>
             }
 
             {

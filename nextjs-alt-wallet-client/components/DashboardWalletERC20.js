@@ -10,21 +10,6 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     const [erc20TokenBalance, setErc20TokenBalance] = useState()
     const [walletNetworkUse, setWalletNetworkUse] = useState()
 
-    /**
-     * * Get account from metamask
-     */
-    const requestAccount = useCallback(
-        () => {
-            if (typeof window.ethereum == 'undefined') {
-                window.ethereum.request({ method: 'eth_requestAccounts' });
-            } else {
-                getBalance();
-            }
-        },
-        [getBalance],
-    )
-
-
     const getBalance = useCallback(async () => {
         try {
             if (typeof window.ethereum !== 'undefined') {
@@ -47,6 +32,21 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     },
         [erc20TokenAddress],
     )
+
+    /**
+     * * Get account from metamask
+     */
+    const requestAccount = useCallback(
+        () => {
+            if (typeof window.ethereum == 'undefined') {
+                window.ethereum.request({ method: 'eth_requestAccounts' });
+            } else {
+                getBalance();
+            }
+        },
+        [getBalance],
+    )
+
 
 
     useEffect(() => {

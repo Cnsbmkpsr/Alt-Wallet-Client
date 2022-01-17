@@ -4,8 +4,9 @@ import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
 import DashboardApi from './DashboardApi';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import PropTypes from "prop-types";
 
-const SendTransaction = () => {
+const SendTransaction = ({ setWalletAddressFromParent }) => {
     const [walletAddress, setWalletAddress] = useState();
 
     const startPayment = async ({ setError, setTxs, ether, addr }) => {
@@ -46,12 +47,17 @@ const SendTransaction = () => {
     };
 
 
-    const handleWalletAddress = useCallback(
+    // const handleWalletAddress = useCallback(
+    //     (walletAddress) => {
+    //         setWalletAddressFromParent(walletAddress);
+    //     },
+    //     [],
+    // )
+
+    const handleWalletAddress =
         (walletAddress) => {
-            setWalletAddress(walletAddress);
-        },
-        [],
-    )
+            setWalletAddressFromParent(walletAddress);
+        }
 
     return (
         <div>
@@ -98,6 +104,10 @@ const SendTransaction = () => {
             </form>
         </div>
     )
+}
+
+SendTransaction.propTypes = {
+    setWalletAddressFromParent: PropTypes.func
 }
 
 export default SendTransaction
