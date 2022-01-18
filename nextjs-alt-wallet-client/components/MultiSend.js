@@ -1,14 +1,11 @@
-import ErrorMessage from "../components/ErrorMessage";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ethers } from 'ethers';
 import Token from "../artifacts/contracts/AltToken.sol/AltToken.json";
 import { getAddress } from "ethers/lib/utils";
+import PropTypes from 'prop-types';
 
 const MultiSend = ({ tokenAddress }) => {
 
-    const altTokenAddress = "0xc2BC4Fcc10558868AF6706E4E80bD2dCb50D7034"
-
-    const [error, setError] = useState();
     const [multiDeliveryAddress, setMultiDeliveryAddress] = useState([{ deliveryAddress: "", amount: 0 }])
     const [hasError, setHasError] = useState();
 
@@ -37,6 +34,7 @@ const MultiSend = ({ tokenAddress }) => {
                     if (isAddress(deliveryAddress)) {
                         setHasError(false);
                         const transaction = await contract.transfer(multiDeliveryAddress[i].deliveryAddress, multiDeliveryAddress[i].amount);
+                        console.log({ transaction });
                         //await transaction.wait();
                         console.log(`${multiDeliveryAddress[i].amount} Coins successfully sent to ${multiDeliveryAddress[i].deliveryAddress}`);
                     } else {
@@ -45,7 +43,7 @@ const MultiSend = ({ tokenAddress }) => {
                 }
             }
         } catch (err) {
-            setError(err.message);
+            setHasError(err.message);
         }
     }
 
@@ -115,6 +113,10 @@ const MultiSend = ({ tokenAddress }) => {
             </form >
         </div >
     )
+}
+
+MultiSend.propTypes = {
+    tokenAddress: PropTypes.string
 }
 
 export default MultiSend;

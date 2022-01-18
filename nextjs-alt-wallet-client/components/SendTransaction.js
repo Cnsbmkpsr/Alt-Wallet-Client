@@ -2,12 +2,10 @@ import { ethers } from 'ethers';
 import Dashboard from './Dashboard';
 import ErrorMessage from "./ErrorMessage";
 import TxList from "./TxList";
-import DashboardApi from './DashboardApi';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import PropTypes from "prop-types";
 
 const SendTransaction = ({ setWalletAddressFromParent }) => {
-    const [walletAddress, setWalletAddress] = useState();
 
     const startPayment = async ({ setError, setTxs, ether, addr }) => {
         try {

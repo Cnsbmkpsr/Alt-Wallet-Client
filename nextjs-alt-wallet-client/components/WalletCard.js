@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ethers } from 'ethers';
 
 const WalletCard = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [defaultAccount, setDefaultAccount] = useState(null);
     const [userBalance, setUserBalance] = useState(null);
-    const [connexionButtonText, setConnexionButtonText] = useState("Connectez votre wallet");
 
     const connectWalletHandler = () => {
         if (window.ethereum) {
@@ -46,7 +45,6 @@ const WalletCard = () => {
                 onClick={connectWalletHandler}
                 className="border-2 p-2"
             >
-                {connexionButtonText}
             </button>
             <div>
                 <h3>Address: {defaultAccount}</h3>

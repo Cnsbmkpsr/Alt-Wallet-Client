@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function TxList({ txs }) {
     if (txs.length === 0) return null;
 
@@ -12,4 +14,8 @@ export default function TxList({ txs }) {
             ))}
         </>
     );
+}
+
+TxList.propTypes = {
+    txs: PropTypes.array
 }

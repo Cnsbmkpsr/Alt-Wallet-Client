@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import Navbar from "../components/Navbar";
 import DashboardWalletERC20 from '../components/DashboardWalletERC20';
 import DashboardTokenERC20 from '../components/DashboardTokenERC20';
