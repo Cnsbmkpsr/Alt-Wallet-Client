@@ -16,6 +16,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const contract = new ethers.Contract(erc20TokenAddress, Token.abi, provider)
+                console.log({ account });
                 let balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
                 const contractName = await contract.name();
