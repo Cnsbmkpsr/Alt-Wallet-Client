@@ -102,105 +102,119 @@ const DashboardApi = ({ walletAddress }) => {
     }, [getWalletInformation, testConnexionToApi, walletAddress]);
 
     return (
-        <div className="flex flex-col justify-center text-center">
+        <div>
+            <div>
+
+            </div>
             <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-                <h1 className="text-4xl">Transaction history</h1>
+
                 {
                     !apiStatus &&
                     <h1 className="bg-red-600">API Status: Offline</h1>
                 }
                 {
                     apiStatus &&
-                    <h1 className="bg-green-600">API Status: Online</h1>
+                    <div className="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 max-w" role="alert">
+                        <p className="font-bold">
+                            Success
+                        </p>
+                        <p className="max-w-sm">
+                            API Status: Online
+                        </p>
+                    </div>
                 }
-                {
-                    transactionsHistory ?
-                        <div>
-                            <div className="container mx-auto px-4 sm:px-8">
-                                <div className="py-8 ">
-                                    <div>
-                                        <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                            <table className="min-w-full leading-normal">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
-                                                            Index
-                                                        </th>
-                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
-                                                            Hash
-                                                        </th>
-                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
-                                                            Gas Price (Wei)
-                                                        </th>
-                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
-                                                            value (ETH)
-                                                        </th>
-                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
-                                                            timestamp
-                                                        </th>
-                                                        <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
-                                                            Status
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {transactionsHistory.map((transaction) =>
-                                                        <tr key={transaction.hash}>
-                                                            <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
-                                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                                    {transaction.nonce - 1}
-                                                                </p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p className="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
-                                                                    {transaction.hash.substring(0, 4)} ...                               {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
-                                                                    <CopyToClipboard
+                <div className="flex flex-col justify-center text-center">
+                    <h1 className="text-4xl">Transaction history</h1>
 
-                                                                        text={transaction.hash}>
-                                                                        <BiClipboard />
-                                                                    </CopyToClipboard>
-                                                                </p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                                    {utils.formatEther(transaction.gasPrice)}
-                                                                </p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                                    {utils.formatEther(transaction.value)}
-                                                                </p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
-                                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                                    {new Date(transaction.timestamp * 1000).getFullYear()}/{new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}
-                                                                </p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                                <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                                    <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
-                                                                    </span>
-                                                                    <span className="relative">
-                                                                        Success
-                                                                    </span>
-                                                                </span>
-                                                            </td>
+                    {
+                        transactionsHistory ?
+                            <div>
+                                <div className="container mx-auto px-4 sm:px-8">
+                                    <div className="py-8 ">
+                                        <div>
+                                            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                                <table className="min-w-full leading-normal">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                                Index
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                                Hash
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                                Gas Price (Wei)
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                                value (ETH)
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                                timestamp
+                                                            </th>
+                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                                Status
+                                                            </th>
                                                         </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        {transactionsHistory.map((transaction) =>
+                                                            <tr key={transaction.hash}>
+                                                                <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                                        {transaction.nonce - 1}
+                                                                    </p>
+                                                                </td>
+                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                    <p className="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
+                                                                        {transaction.hash.substring(0, 4)} ...                               {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
+                                                                        <CopyToClipboard
+
+                                                                            text={transaction.hash}>
+                                                                            <BiClipboard />
+                                                                        </CopyToClipboard>
+                                                                    </p>
+                                                                </td>
+                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                                        {utils.formatEther(transaction.gasPrice)}
+                                                                    </p>
+                                                                </td>
+                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                                        {utils.formatEther(transaction.value)}
+                                                                    </p>
+                                                                </td>
+                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                    <p className="text-gray-900 whitespace-no-wrap">
+                                                                        {new Date(transaction.timestamp * 1000).getFullYear()}/{new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}
+                                                                    </p>
+                                                                </td>
+                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                                        <span aria-hidden="true" className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
+                                                                        </span>
+                                                                        <span className="relative">
+                                                                            Success
+                                                                        </span>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        :
+                            :
 
-                        <div>
-                            <h3>Recovery of your transaction history, please wait...</h3>
-                        </div>
-                }
+                            <div>
+                                <h3>Recovery of your transaction history, please wait...</h3>
+                            </div>
+                    }
+                </div>
             </div>
         </div>
     )

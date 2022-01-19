@@ -46,30 +46,26 @@ export default function Dashboard({ walletAddress }) {
 
 
     return (
-        <div className="text-center text-gray-800">
-            <h1>Welcome to your Dashboard to interact with the Ethereum network</h1>
-
-
-            {
-                networkName &&
-                <h1>Currently connected network: {networkName}</h1>
-            }
-
+        <div className="text-center text-gray-800 tracking-wide m-2">
+            <h1 className="text-2xl">Welcome to your Dashboard to interact with the Ethereum network</h1>
             {
                 signerAddress &&
-                <h1>Your publique Wallet address: {signerAddress}</h1>
+                <h1 className="m-2">Your publique Wallet address: {signerAddress}</h1>
             }
-
-            {
-                signerBalance &&
-                <h1>Wallet ETH Balance: {signerBalance}</h1>
+            <div className="flex flex-wrap-reverse justify-center  space-x-4 space-y-3 text-center">         {
+                networkName &&
+                <h1 className="m-4 p-2 rounded-lg border-2 border-gray-600">Currently connected network: {networkName}</h1>
             }
+                {
+                    signerBalance &&
+                    <h1 className="m-4 p-2 rounded-lg border-2 border-gray-600">Wallet ETH Balance: {signerBalance}</h1>
+                }
 
-            {
-                signerWalletTransactionCount &&
-                <h1>Nonce: {signerWalletTransactionCount}</h1>
-            }
-
+                {
+                    signerWalletTransactionCount &&
+                    <h1 className="m-4 p-2 rounded-lg border-2 border-gray-600">Nonce: {signerWalletTransactionCount}</h1>
+                }
+            </div>
         </div>
     )
 }
