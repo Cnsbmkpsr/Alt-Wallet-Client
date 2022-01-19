@@ -55,7 +55,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
 
     return (
         <div>
-            <div className="flex flex-col justify-center justify-items-center justify-self-center content-center items-center bg-gray-100 p-4 m-4 shadow-lg dark:bg-gray-800">
+            <div className="flex flex-col bg-gray-100 p-4 m-4 shadow-lg dark:bg-gray-800">
                 {erc20TokenBalance ?
                     <div>
                         <p className="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">

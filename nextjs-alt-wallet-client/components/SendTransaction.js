@@ -74,7 +74,7 @@ const SendTransaction = ({ setWalletAddressFromParent }) => {
                                 <input
                                     type="text"
                                     name="addr"
-                                    className="input input-bordered block w-full focus:ring focus:outline-none"
+                                    className="simpleInput w-full bg-white"
                                     placeholder="Recipient Address"
                                 />
                             </div>
@@ -82,20 +82,18 @@ const SendTransaction = ({ setWalletAddressFromParent }) => {
                                 <input
                                     name="ether"
                                     type="text"
-                                    className="input input-bordered block w-full focus:ring focus:outline-none"
+                                    className="simpleInput w-full bg-white"
                                     placeholder="Amount in ETH"
                                 />
                             </div>
                         </div>
                     </main>
-                    <footer className="p-4">
-                        <button
-                            type="submit"
-                            className="bg-gray-200 submit-button focus:ring focus:outline-none w-full"
-                        >
-                            Pay now
+                    <ErrorMessage message={error} />
+                    <footer className=" flex p-4 justify-center">
+                        <button type="submit"
+                            className=" px-6 py-2 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none ">
+                            Send ETH
                         </button>
-                        <ErrorMessage message={error} />
                         <TxList txs={txs} />
                     </footer>
                 </div>
