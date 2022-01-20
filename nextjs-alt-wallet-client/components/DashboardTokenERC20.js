@@ -51,12 +51,12 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
 
 
     return (
-        <div>
-            <div className="flex flex-col justify-center text-center">
-                <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
+        <div className="credit-card w-full lg:w-2/3 sm:w-auto shadow-lg mx-auto rounded-xl bg-gray-100">
+            <div className="flex flex-col justify-center text-center ">
+                <div className="px-4 py-6 relative m-4">
                     <form onSubmit={handleSubmit} className="flex flex-col mb-10">
-                        <input type="text" name="deliveryAddress" className="simpleInput" placeholder="ERC20 Token Address" ref={ref} />
-                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mx-48 rounded" type="button" onClick={() => handleSubmit()}>Rechercher le token ERC20</button>
+                        <input type="text" name="deliveryAddress" className="simpleInput text-center" placeholder="ERC20 Token Address" ref={ref} />
+                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 max-w-58 px-2 self-center rounded" type="button" onClick={() => handleSubmit()}>Search the ERC20 token</button>
                     </form>
                     {tokenName ?
                         <div>
