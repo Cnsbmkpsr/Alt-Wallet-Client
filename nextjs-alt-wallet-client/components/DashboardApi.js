@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard } from "react-icons/bi"
 import PropTypes from 'prop-types';
+import ErrorMessage from './ErrorMessage';
 
 const DashboardApi = ({ walletAddress }) => {
 
@@ -13,6 +14,7 @@ const DashboardApi = ({ walletAddress }) => {
     let apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
+    const [hasError, setHasError] = useState("API Status: Offline");
 
 
     const apiRequestBuilder = useCallback(async (ressourcePath, type, params, responseType) => {
@@ -36,6 +38,7 @@ const DashboardApi = ({ walletAddress }) => {
                     console.log("[-] Error, timeout for connexion to the API")
                 }
             } catch (err) {
+                setHasError(err.message);
                 throw new Error(err);
             }
         })
@@ -50,7 +53,9 @@ const DashboardApi = ({ walletAddress }) => {
             }
             const apiResponse = await apiRequestBuilder("", "GET", "", "text");
             setApiStatus(apiResponse);
+            setHasError(null);
         } catch (err) {
+            setHasError(err.message);
             throw new Error(err);
         }
     },
@@ -66,6 +71,7 @@ const DashboardApi = ({ walletAddress }) => {
                 //console.log(apiResponse[0])
             } catch (err) {
                 console.log(err);
+                setHasError(err.message);
                 throw new Error(err);
             }
         },
@@ -83,7 +89,8 @@ const DashboardApi = ({ walletAddress }) => {
             getTransactionHistory(walletAddress, networkProvider);
             await window.ethereum.send("eth_requestAccounts");
         } catch (err) {
-            console.log(err);
+            setHasError(err.message);
+            console.log(err.message);
         }
     },
         [getTransactionHistory, signerAddress, walletAddress],
@@ -97,6 +104,7 @@ const DashboardApi = ({ walletAddress }) => {
 
 
         } catch (err) {
+            setHasError(err.message);
             console.log(err);
         }
     }, [getWalletInformation, testConnexionToApi, walletAddress]);
@@ -107,10 +115,9 @@ const DashboardApi = ({ walletAddress }) => {
 
             </div>
             <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-
                 {
-                    !apiStatus &&
-                    <h1 className="bg-red-600">API Status: Offline</h1>
+                    hasError &&
+                    <ErrorMessage message={hasError} />
                 }
                 {
                     apiStatus &&
