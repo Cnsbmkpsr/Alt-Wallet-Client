@@ -9,7 +9,7 @@ import ErrorMessage from './ErrorMessage';
 const DashboardApi = ({ walletAddress }) => {
 
     const [apiStatus, setApiStatus] = useState(null);
-    const apiUrl = "https://34.78.56.8:7546/"
+    const apiUrl = "http://34.78.56.8:7546/"
     //const apiUrl = "http://localhost:7546/"
     let apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
