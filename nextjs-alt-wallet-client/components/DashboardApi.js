@@ -5,6 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard } from "react-icons/bi"
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
+const axios = require('axios');
 
 const DashboardApi = ({ walletAddress }) => {
 
@@ -15,7 +16,6 @@ const DashboardApi = ({ walletAddress }) => {
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
     const [hasError, setHasError] = useState("API Status: Offline");
-
 
     const apiRequestBuilder = useCallback(async (ressourcePath, type, params, responseType) => {
         return new Promise((resolve) => {
@@ -44,6 +44,18 @@ const DashboardApi = ({ walletAddress }) => {
         })
     }, [])
 
+    const axiosTestApiConnexion = useCallback(() => {
+        axios.get(apiUrl)
+            .then(function (response) {
+                console.log({ response });
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+    }, []);
+
+
     const testConnexionToApi = useCallback(async () => {
         try {
 
@@ -52,6 +64,7 @@ const DashboardApi = ({ walletAddress }) => {
                 setApiStatus(null);
             }
             const apiResponse = await apiRequestBuilder("", "GET", "", "text");
+            console.log({ apiResponse });
             setApiStatus(apiResponse);
             setHasError(null);
         } catch (err) {
@@ -75,7 +88,7 @@ const DashboardApi = ({ walletAddress }) => {
                 throw new Error(err);
             }
         },
-        [apiRequestBuilder, walletAddress],
+        [apiRequestBuilder],
     )
 
     const getWalletInformation = useCallback(async () => {
@@ -101,6 +114,7 @@ const DashboardApi = ({ walletAddress }) => {
             getWalletInformation();
             testConnexionToApi();
             setInterval(testConnexionToApi, 1000);
+            axiosTestApiConnexion();
 
 
         } catch (err) {
