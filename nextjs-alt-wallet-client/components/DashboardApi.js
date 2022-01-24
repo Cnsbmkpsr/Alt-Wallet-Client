@@ -5,7 +5,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard } from "react-icons/bi"
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
-const axios = require('axios');
+//const axios = require('axios');
+import axios from './axios';
 
 const DashboardApi = ({ walletAddress }) => {
 
