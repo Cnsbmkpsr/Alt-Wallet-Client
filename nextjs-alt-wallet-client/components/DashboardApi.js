@@ -122,7 +122,7 @@ const DashboardApi = ({ walletAddress }) => {
             setHasError(err.message);
             console.log(err);
         }
-    }, [getWalletInformation, testConnexionToApi, walletAddress]);
+    }, [axiosTestApiConnexion, getWalletInformation, testConnexionToApi, walletAddress]);
 
     return (
         <div>
