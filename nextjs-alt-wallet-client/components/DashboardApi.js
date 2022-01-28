@@ -11,7 +11,7 @@ import axios from 'axios';
 const DashboardApi = ({ walletAddress }) => {
 
     const [apiStatus, setApiStatus] = useState(null);
-    const apiUrl = "https://34.78.56.8:7546/"
+    const apiUrl = "https://altapihttps.ddns.net:443/"
     //const apiUrl = "http://localhost:7546/"
     let apiConnexionTimeout = 10;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
@@ -48,7 +48,7 @@ const DashboardApi = ({ walletAddress }) => {
     const axiosTestApiConnexion = useCallback(() => {
         axios.get(apiUrl)
             .then(function (response) {
-                console.log({ response });
+                //console.log({ response });
             })
             .catch(function (error) {
                 // handle error
@@ -65,7 +65,6 @@ const DashboardApi = ({ walletAddress }) => {
                 setApiStatus(null);
             }
             const apiResponse = await apiRequestBuilder("", "GET", "", "text");
-            console.log({ apiResponse });
             setApiStatus(apiResponse);
             setHasError(null);
         } catch (err) {
