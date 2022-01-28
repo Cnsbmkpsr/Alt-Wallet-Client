@@ -48,7 +48,7 @@ const DashboardApi = ({ walletAddress }) => {
     const axiosTestApiConnexion = useCallback(() => {
         axios.get(apiUrl)
             .then(function (response) {
-                //console.log({ response });
+                console.log({ response });
             })
             .catch(function (error) {
                 // handle error
