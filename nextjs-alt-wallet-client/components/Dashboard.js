@@ -22,13 +22,12 @@ export default function Dashboard({ walletAddress }) {
 
             walletAddress(signerAddress);
 
-            setNetworkInformations((prevState) => ({
-                ...prevState,
+            setNetworkInformations({
                 networkName: networkName,
                 signerAddress: signerAddress,
                 signerBalance: signerBalance,
                 signerWalletTransactionCount: signerWalletTransactionCount
-            }))
+            })
 
             await window.ethereum.send("eth_requestAccounts");
 
