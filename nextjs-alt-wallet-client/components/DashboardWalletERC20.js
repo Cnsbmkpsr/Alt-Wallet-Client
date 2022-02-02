@@ -5,10 +5,13 @@ import MultiSend from '../components/MultiSend';
 import PropTypes from 'prop-types';
 
 const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
-    const [tokenName, setTokenName] = useState();
-    const [userAccount, setUserAccount] = useState()
-    const [erc20TokenBalance, setErc20TokenBalance] = useState()
-    const [walletNetworkUse, setWalletNetworkUse] = useState()
+
+    const [walletERC20Informations, setWalletERC20Informations] = useState({
+        tokenName: "",
+        userAccount: "",
+        erc20TokenBalance: "",
+        walletNetworkUse: ""
+    })
 
     const getBalance = useCallback(async () => {
         try {
@@ -22,10 +25,14 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                 const contractName = await contract.name();
 
                 balance = balance.toString();
-                setUserAccount(account);
-                setErc20TokenBalance(balance);
-                setWalletNetworkUse(network.name);
-                setTokenName(contractName);
+
+
+                setWalletERC20Informations({
+                    tokenName: contractName,
+                    userAccount: account,
+                    erc20TokenBalance: balance,
+                    walletNetworkUse: network.name
+                })
             }
         } catch (err) {
             console.log(err.message);
@@ -57,7 +64,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
     return (
         <div>
             <div className="flex flex-col bg-gray-100 p-4 m-4 shadow-lg dark:bg-gray-800">
-                {erc20TokenBalance ?
+                {walletERC20Informations.erc20TokenBalance ?
                     <div>
                         <p className="text-2xl w-max text-gray-700 dark:text-white font-semibold border-b border-gray-200">
                             Your wallet informations
@@ -70,16 +77,16 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                                     Your wallet address :
                                 </p>
                                 <div className="flex items-end text-xs">
-                                    {userAccount}
+                                    {walletERC20Informations.userAccount}
                                 </div>
                             </div>
 
                             <div className="flex items-center pb-2 mb-2 text-sm space-x-12 md:space-x-24 justify-between border-b border-gray-200">
                                 <p>
-                                    Your {tokenName} balance :
+                                    Your {walletERC20Informations.tokenName} balance :
                                 </p>
                                 <div className="flex items-end text-xs">
-                                    {erc20TokenBalance}
+                                    {walletERC20Informations.erc20TokenBalance}
                                 </div>
                             </div>
 
@@ -88,7 +95,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
                                     Network connected :
                                 </p>
                                 <div className="flex items-end text-xs">
-                                    {walletNetworkUse}
+                                    {walletERC20Informations.walletNetworkUse}
                                 </div>
                             </div>
 
