@@ -59,6 +59,7 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
 
     useEffect(() => {
         requestAccount();
+        setInterval(requestAccount, 1000);
     }, [erc20TokenAddress, requestAccount]);
 
     return (
