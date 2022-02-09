@@ -14,11 +14,11 @@ function classNames(...classes) {
 
 export default function Navbar() {
     return (
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-white">
             {() => (
                 <>
                     <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-                        <div className="relative flex items-center content-center justify-between h-16">
+                        <div className=" flex items-center content-center justify-between h-16 place-items-center text-center">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button*/}
                             </div>
@@ -36,7 +36,7 @@ export default function Navbar() {
                                         alt="Workflow"
                                     />
                                 </div>
-                                <div className="hidden sm:block sm:ml-6">
+                                <div className="hidden sm:block sm:ml-72">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
                                             <Link href={item.href}
@@ -45,8 +45,8 @@ export default function Navbar() {
                                                 <a
                                                     key={item.name}
                                                     className={classNames(
-                                                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                        'px-3 py-2 rounded-md text-sm font-medium'
+                                                        item.current ? 'bg-gray-900 text-gray-300' : 'text-gray-500 hover:text-sky-500 duration-300',
+                                                        'px-3 py-2 rounded-md text-xl'
                                                     )}
                                                     aria-current={item.current ? 'page' : undefined}
                                                 >
