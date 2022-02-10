@@ -12,7 +12,7 @@ const DashboardApi = ({ walletAddress }) => {
     const [apiStatus, setApiStatus] = useState(null);
     const apiUrl = "https://altapihttps.ddns.net:443/"
     //const apiUrl = "http://localhost:7546/"
-    let apiConnexionTimeout = 10;
+    let apiConnexionTimeout = 30;
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
     const [hasError, setHasError] = useState("API Status: Offline");
