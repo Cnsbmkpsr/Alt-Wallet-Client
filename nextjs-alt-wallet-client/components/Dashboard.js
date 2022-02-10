@@ -56,16 +56,16 @@ export default function Dashboard({ walletAddress }) {
             }
             <div className="flex flex-wrap-reverse justify-center space-x-4 space-y-3 text-center items-center">         {
                 networkInformations.networkName &&
-                <h1 className="p-2 rounded-lg border-2 border-sky-500 mt-3">Currently connected network: {networkInformations.networkName}</h1>
+                <h1 className="p-2 rounded-lg border-2 border-gray-400 mt-3">Currently connected network: {networkInformations.networkName}</h1>
             }
                 {
                     networkInformations.signerBalance &&
-                    <h1 className="p-2 rounded-lg border-2 border-sky-500">Wallet ETH Balance: {networkInformations.signerBalance}</h1>
+                    <h1 className="p-2 rounded-lg border-2 border-gray-400">Wallet ETH Balance: {networkInformations.signerBalance}</h1>
                 }
 
                 {
                     networkInformations.signerWalletTransactionCount &&
-                    <h1 className="p-2 rounded-lg border-2 border-sky-500">Nonce: {networkInformations.signerWalletTransactionCount}</h1>
+                    <h1 className="p-2 rounded-lg border-2 border-gray-400">Nonce: {networkInformations.signerWalletTransactionCount}</h1>
                 }
             </div>
         </div>
