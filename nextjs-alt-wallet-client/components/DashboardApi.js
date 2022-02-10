@@ -6,7 +6,6 @@ import { BiClipboard } from "react-icons/bi"
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 //const axios = require('axios');
-import axios from 'axios';
 
 const DashboardApi = ({ walletAddress }) => {
 
@@ -44,17 +43,6 @@ const DashboardApi = ({ walletAddress }) => {
             }
         })
     }, [])
-
-    const axiosTestApiConnexion = useCallback(() => {
-        axios.get(apiUrl)
-            .then(function (response) {
-                console.log({ response });
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-    }, []);
 
 
     const testConnexionToApi = useCallback(async () => {
@@ -99,8 +87,12 @@ const DashboardApi = ({ walletAddress }) => {
             setSignerAddress(signerAddress);
             let networkProvider = await provider.getNetwork();
             networkProvider = networkProvider.name;
-            getTransactionHistory(walletAddress, networkProvider);
-            await window.ethereum.send("eth_requestAccounts");
+            if (walletAddress == null) {
+                await window.ethereum.send("eth_requestAccounts");
+
+            } else {
+                getTransactionHistory(walletAddress, networkProvider);
+            }
         } catch (err) {
             setHasError(err.message);
             console.log(err.message);
@@ -114,14 +106,13 @@ const DashboardApi = ({ walletAddress }) => {
             getWalletInformation();
             testConnexionToApi();
             setInterval(testConnexionToApi, 1000);
-            axiosTestApiConnexion();
 
 
         } catch (err) {
             setHasError(err.message);
             console.log(err);
         }
-    }, [axiosTestApiConnexion, getWalletInformation, testConnexionToApi, walletAddress]);
+    }, [getWalletInformation, testConnexionToApi, walletAddress]);
 
     return (
         <div>
