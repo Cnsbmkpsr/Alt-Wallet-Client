@@ -106,13 +106,13 @@ const MultiSend = ({ tokenAddress }) => {
                             }
                         </div>
                     ))}
-                    <div>
+                    <div className="form-inline content-around p-9">
                         <button className="bg-green-500 hover:bg-green-700 text-white font-bold m-2 py-2 px-4 rounded" type="button" onClick={() => addFormFields()}>Add Delivery Address</button>
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold m-2 py-2 px-4 rounded" type="submit">Send the token</button>
                     </div>
                 </form >
             </div >
-        </div>
+        </div >
     )
 }
 
