@@ -68,8 +68,16 @@ const DashboardApi = ({ walletAddress }) => {
             try {
                 let params = "publicKey=" + walletAddress + "&provider=" + networkProvider
                 const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
+                for (let i = 0; i < apiResponse.length; i++) {
+                    if (apiResponse[i].to == null) {
+                        apiResponse[i].transactionType = "income"
+                    } else {
+                        apiResponse[i].transactionType = "outgoing"
+                    }
+                }
                 setTransactionsHistory(apiResponse);
-                //console.log(apiResponse[0])
+
+                console.log({ apiResponse })
             } catch (err) {
                 console.log(err);
                 setHasError(err.message);
@@ -140,7 +148,9 @@ const DashboardApi = ({ walletAddress }) => {
 
                     {
                         transactionsHistory ?
-                            <div>
+
+
+                            < div >
                                 <div className="container mx-auto px-4 sm:px-8">
                                     <div className="py-8 ">
                                         <div>
@@ -149,7 +159,7 @@ const DashboardApi = ({ walletAddress }) => {
                                                     <thead>
                                                         <tr>
                                                             <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
-                                                                Index
+                                                                Type
                                                             </th>
                                                             <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                                 Hash
@@ -173,12 +183,14 @@ const DashboardApi = ({ walletAddress }) => {
                                                             <tr key={transaction.hash}>
                                                                 <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                                     <p className="text-gray-900 whitespace-no-wrap">
-                                                                        {transaction.nonce}
+                                                                        {
+                                                                            transaction.transactionType
+                                                                        }
                                                                     </p>
                                                                 </td>
                                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                     <p className="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
-                                                                        {transaction.hash.substring(0, 4)} ...                               {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
+                                                                        {transaction.hash.substring(0, 4)} ...    {transaction.hash.substring(transaction.hash.length - 4, transaction.hash.length)}
                                                                         <CopyToClipboard
 
                                                                             text={transaction.hash}>
@@ -228,7 +240,7 @@ const DashboardApi = ({ walletAddress }) => {
                     }
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
