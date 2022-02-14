@@ -5,18 +5,21 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard } from "react-icons/bi"
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
-//const axios = require('axios');
 
 const DashboardApi = ({ walletAddress }) => {
 
-    const [apiStatus, setApiStatus] = useState(null);
+    // * Currently, the API is freely host on a Google Cloud VM
     const apiUrl = "https://altapihttps.ddns.net:443/"
-    //const apiUrl = "http://localhost:7546/"
+
+    // * After 30 secondes without response, the API status is Offline by default
     let apiConnexionTimeout = 30;
+
+    const [apiStatus, setApiStatus] = useState(null);
     const [transactionsHistory, setTransactionsHistory] = useState(null);
     const [signerAddress, setSignerAddress] = useState();
     const [hasError, setHasError] = useState("API Status: Offline");
 
+    // TODO: Simplify the request with Axios or fetch in Javascript
     const apiRequestBuilder = useCallback(async (ressourcePath, type, params, responseType) => {
         return new Promise((resolve) => {
             try {
@@ -44,10 +47,8 @@ const DashboardApi = ({ walletAddress }) => {
         })
     }, [])
 
-
     const testConnexionToApi = useCallback(async () => {
         try {
-
             apiConnexionTimeout -= 1;
             if (apiConnexionTimeout <= 0) {
                 setApiStatus(null);
@@ -68,16 +69,25 @@ const DashboardApi = ({ walletAddress }) => {
             try {
                 let params = "publicKey=" + walletAddress + "&provider=" + networkProvider
                 const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
+
+                // * Set if the transaction is an income ou an outgoing
                 for (let i = 0; i < apiResponse.length; i++) {
                     if (apiResponse[i].to == null) {
-                        apiResponse[i].transactionType = "income"
+                        apiResponse[i].to = walletAddress;
+                        apiResponse[i].transactionType = "receive"
                     } else {
-                        apiResponse[i].transactionType = "outgoing"
+                        apiResponse[i].transactionType = "sending"
                     }
+
+                    let TransactionETHValue = utils.formatEther(apiResponse[i].value);
+                    if (TransactionETHValue == 0) {
+                        apiResponse[i].value = "Another Token was send";
+                    } else {
+                        apiResponse[i].value = TransactionETHValue;
+                    }
+
                 }
                 setTransactionsHistory(apiResponse);
-
-                console.log({ apiResponse })
             } catch (err) {
                 console.log(err);
                 setHasError(err.message);
@@ -90,14 +100,11 @@ const DashboardApi = ({ walletAddress }) => {
     const getWalletInformation = useCallback(async () => {
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            //const signer = provider.getSigner();
-            //let walletAddress = (await signer.getAddress());
             setSignerAddress(signerAddress);
             let networkProvider = await provider.getNetwork();
             networkProvider = networkProvider.name;
             if (walletAddress == null) {
                 await window.ethereum.send("eth_requestAccounts");
-
             } else {
                 getTransactionHistory(walletAddress, networkProvider);
             }
@@ -114,8 +121,6 @@ const DashboardApi = ({ walletAddress }) => {
             getWalletInformation();
             testConnexionToApi();
             setInterval(testConnexionToApi, 1000);
-
-
         } catch (err) {
             setHasError(err.message);
             console.log(err);
@@ -131,6 +136,7 @@ const DashboardApi = ({ walletAddress }) => {
                     hasError &&
                     <ErrorMessage message={hasError} />
                 }
+
                 {
                     apiStatus &&
                     <div>
@@ -144,14 +150,11 @@ const DashboardApi = ({ walletAddress }) => {
                         </div>
 
                     </div>
-
                 }
-                <div className="flex flex-col justify-center text-center">
 
+                <div className="flex flex-col justify-center text-center">
                     {
                         transactionsHistory ?
-
-
                             < div >
                                 <div className="container mx-auto px-4 sm:px-8">
                                     <div className="py-8 ">
@@ -167,12 +170,15 @@ const DashboardApi = ({ walletAddress }) => {
                                                                 Hash
                                                             </th>
                                                             <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
+                                                                Receiver address
+                                                            </th>
+                                                            <th scope="col" className="px-1 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
                                                                 Gas Price (Wei)
                                                             </th>
-                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                            <th scope="col" className="px-1 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                                 value (ETH)
                                                             </th>
-                                                            <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
+                                                            <th scope="col" className="px-1 py-5 bg-white  border-b border-r border-gray-200 text-gray-800  text-sm uppercase font-normal">
                                                                 timestamp
                                                             </th>
                                                             <th scope="col" className="px-5 py-5 bg-white  border-b border-r border-gray-200 text-gray-800 text-sm uppercase font-normal">
@@ -184,11 +190,17 @@ const DashboardApi = ({ walletAddress }) => {
                                                         {transactionsHistory.map((transaction) =>
                                                             <tr key={transaction.hash}>
                                                                 <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
-                                                                    <p className="text-gray-900 whitespace-no-wrap">
-                                                                        {
-                                                                            transaction.transactionType
-                                                                        }
-                                                                    </p>
+                                                                    {
+                                                                        transaction.transactionType == "sending" ?
+                                                                            <p className="text-purple-400 whitespace-no-wrap">
+                                                                                {transaction.transactionType}
+                                                                            </p>
+                                                                            :
+                                                                            <p className="text-sky-300 whitespace-no-wrap">
+                                                                                {transaction.transactionType}
+                                                                            </p>
+                                                                    }
+
                                                                 </td>
                                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                     <p className="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
@@ -201,16 +213,26 @@ const DashboardApi = ({ walletAddress }) => {
                                                                     </p>
                                                                 </td>
                                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                    <p className="text-gray-900 justify-center whitespace-no-wrap flex flex-nowrap">
+                                                                        {transaction.to.substring(0, 4)} ...    {transaction.to.substring(transaction.to.length - 4, transaction.to.length)}
+                                                                        <CopyToClipboard
+
+                                                                            text={transaction.to}>
+                                                                            <BiClipboard />
+                                                                        </CopyToClipboard>
+                                                                    </p>
+                                                                </td>
+                                                                <td className="px-1 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                     <p className="text-gray-900 whitespace-no-wrap">
                                                                         {utils.formatEther(transaction.gasPrice)}
                                                                     </p>
                                                                 </td>
-                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <td className="px-1 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                     <p className="text-gray-900 whitespace-no-wrap">
-                                                                        {utils.formatEther(transaction.value)}
+                                                                        {transaction.value}
                                                                     </p>
                                                                 </td>
-                                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm border-r">
+                                                                <td className="px-1 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                     <p className="text-gray-900 whitespace-no-wrap">
                                                                         {new Date(transaction.timestamp * 1000).getFullYear()}/{new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}
                                                                     </p>

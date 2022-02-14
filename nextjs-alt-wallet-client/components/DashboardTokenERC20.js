@@ -12,11 +12,10 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
         tokenSymbol: "",
         tokenNetwork: ""
     })
-
     const [hasError, setHasError] = useState();
     const ref = useRef();
 
-    const getTokenInformation = useCallback(
+    const getTokenInformations = useCallback(
         async () => {
             try {
                 if (typeof window.ethereum !== "undefined") {
@@ -39,7 +38,6 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
                         tokenSymbol: contractSymbol,
                         tokenNetwork: contractNetwork.name
                     })
-
                     onTokenChange(contractAddress);
                     setHasError(null);
                 }
@@ -47,16 +45,14 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
                 setHasError(err.message);
                 console.log(err.message);
             }
-
         },
         [onTokenChange],
     )
 
     let handleSubmit = useCallback(() => {
         console.log("[ ] Recherche d'informations pour le token : " + tokenERC20informations.erc20TokenAddress);
-        getTokenInformation();
-    }, [getTokenInformation, tokenERC20informations.erc20TokenAddress])
-
+        getTokenInformations();
+    }, [getTokenInformations, tokenERC20informations.erc20TokenAddress])
 
     return (
         <div className="credit-card w-full lg:w-2/3 sm:w-auto shadow-lg mx-auto rounded-xl bg-gray-100">
@@ -120,8 +116,6 @@ const DashboardTokenERC20 = ({ onTokenChange }) => {
                                     Waiting for the address of the ERC-20 token...
                                 </p>
                             </div>
-
-
 
                             <div className="rounded-md flex items-center jusitfy-between px-5 py-4 mb-2 border border-sky-500 text-sky-500">
                                 <div className="w-full flex items-center">

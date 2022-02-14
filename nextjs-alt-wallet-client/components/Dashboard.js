@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import PropTypes from "prop-types";
-
 export default function Dashboard({ walletAddress }) {
 
     const [networkInformations, setNetworkInformations] = useState({
@@ -21,16 +20,13 @@ export default function Dashboard({ walletAddress }) {
             let signerWalletTransactionCount = await signer.getTransactionCount();
 
             walletAddress(signerAddress);
-
             setNetworkInformations({
                 networkName: networkName,
                 signerAddress: signerAddress,
                 signerBalance: signerBalance,
                 signerWalletTransactionCount: signerWalletTransactionCount
             })
-
             await window.ethereum.send("eth_requestAccounts");
-
         } catch (err) {
             console.log(err);
         }
@@ -38,26 +34,28 @@ export default function Dashboard({ walletAddress }) {
         [walletAddress],
     )
 
-
     useEffect(() => {
         setInterval(getWalletInformation, 1000);
         getWalletInformation();
 
     }, [getWalletInformation]);
 
-
-
     return (
         <div className="text-center text-gray-800 tracking-wide m-2 ">
             <h1 className="text-2xl">Welcome to your Dashboard to interact with the Ethereum network</h1>
+
             {
                 networkInformations.signerAddress &&
                 <h1 className="m-2">Your publique Wallet address: {networkInformations.signerAddress}</h1>
             }
-            <div className="flex flex-wrap-reverse justify-center space-x-4 space-y-3 text-center items-center">         {
-                networkInformations.networkName &&
-                <h1 className="p-2 rounded-lg border-2 border-gray-400 mt-3">Currently connected network: {networkInformations.networkName}</h1>
-            }
+
+            <div className="flex flex-wrap-reverse justify-center space-x-4 space-y-3 text-center items-center">
+
+                {
+                    networkInformations.networkName &&
+                    <h1 className="p-2 rounded-lg border-2 border-gray-400 mt-3">Currently connected network: {networkInformations.networkName}</h1>
+                }
+
                 {
                     networkInformations.signerBalance &&
                     <h1 className="p-2 rounded-lg border-2 border-gray-400">Wallet ETH Balance: {networkInformations.signerBalance}</h1>
@@ -67,6 +65,7 @@ export default function Dashboard({ walletAddress }) {
                     networkInformations.signerWalletTransactionCount &&
                     <h1 className="p-2 rounded-lg border-2 border-gray-400">Nonce: {networkInformations.signerWalletTransactionCount}</h1>
                 }
+
             </div>
         </div>
     )

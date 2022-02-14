@@ -13,19 +13,20 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
         walletNetworkUse: ""
     })
 
-    const getBalance = useCallback(async () => {
+    /**
+     * * Get account from metamask
+     */
+    const getWalletERC20Informations = useCallback(async () => {
         try {
             if (typeof window.ethereum !== 'undefined') {
                 const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 const contract = new ethers.Contract(erc20TokenAddress, Token.abi, provider)
-                console.log({ account });
                 let balance = await contract.balanceOf(account);
                 const network = await provider.getNetwork();
                 const contractName = await contract.name();
 
                 balance = balance.toString();
-
 
                 setWalletERC20Informations({
                     tokenName: contractName,
@@ -41,26 +42,10 @@ const DashboardWalletERC20 = ({ erc20TokenAddress }) => {
         [erc20TokenAddress],
     )
 
-    /**
-     * * Get account from metamask
-     */
-    const requestAccount = useCallback(
-        () => {
-            if (typeof window.ethereum == 'undefined') {
-                window.ethereum.request({ method: 'eth_requestAccounts' });
-            } else {
-                getBalance();
-            }
-        },
-        [getBalance],
-    )
-
-
-
     useEffect(() => {
-        requestAccount();
-        setInterval(requestAccount, 1000);
-    }, [erc20TokenAddress, requestAccount]);
+        getWalletERC20Informations();
+        setInterval(getWalletERC20Informations, 1000);
+    }, [erc20TokenAddress, getWalletERC20Informations]);
 
     return (
         <div>
