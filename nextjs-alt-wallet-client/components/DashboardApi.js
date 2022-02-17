@@ -69,19 +69,21 @@ const DashboardApi = ({ walletAddress }) => {
             try {
                 let params = "publicKey=" + walletAddress + "&provider=" + networkProvider
                 const apiResponse = await apiRequestBuilder("wallet/transactionsHistory", "GET", params, "json");
+                console.log({ apiResponse });
+
 
                 // * Set if the transaction is an income ou an outgoing
                 for (let i = 0; i < apiResponse.length; i++) {
-                    if (apiResponse[i].to == null) {
+                    if (apiResponse[i].to == null || apiResponse[i].to == walletAddress) {
                         apiResponse[i].to = walletAddress;
-                        apiResponse[i].transactionType = "receive"
+                        apiResponse[i].transactionType = "receiving"
                     } else {
                         apiResponse[i].transactionType = "sending"
                     }
 
                     let TransactionETHValue = utils.formatEther(apiResponse[i].value);
                     if (TransactionETHValue == 0) {
-                        apiResponse[i].value = "Another Token was send";
+                        apiResponse[i].value = "0";
                     } else {
                         apiResponse[i].value = TransactionETHValue;
                     }
