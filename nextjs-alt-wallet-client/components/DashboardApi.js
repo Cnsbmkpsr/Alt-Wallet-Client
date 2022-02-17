@@ -129,8 +129,8 @@ const DashboardApi = ({ walletAddress }) => {
 
     return (
         <div>
-            <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-4">
-                <h1 className="text-4xl text-center">Transaction history</h1>
+            <div className="shadow-lg px-4 py-6 bg-gray-100 dark:bg-gray-800 relative m-10">
+                <h1 className="text-2xl text-gray-900 font-bold mb-2 text-center">Transactions history</h1>
 
                 {
                     hasError &&
@@ -192,13 +192,21 @@ const DashboardApi = ({ walletAddress }) => {
                                                                 <td className="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                                     {
                                                                         transaction.transactionType == "sending" ?
-                                                                            <p className="text-purple-400 whitespace-no-wrap">
-                                                                                {transaction.transactionType}
-                                                                            </p>
+                                                                            <span className="relative inline-block px-3 py-1 font-semibold text-purple-900 leading-tight">
+                                                                                <span aria-hidden="true" className="absolute inset-0 bg-purple-200 opacity-50 rounded-full">
+                                                                                </span>
+                                                                                <span className="relative">
+                                                                                    {transaction.transactionType}
+                                                                                </span>
+                                                                            </span>
                                                                             :
-                                                                            <p className="text-sky-300 whitespace-no-wrap">
-                                                                                {transaction.transactionType}
-                                                                            </p>
+                                                                            <span className="relative inline-block px-3 py-1 font-semibold text-sky-900 leading-tight">
+                                                                                <span aria-hidden="true" className="absolute inset-0 bg-sky-200 opacity-50 rounded-full">
+                                                                                </span>
+                                                                                <span className="relative">
+                                                                                    {transaction.transactionType}
+                                                                                </span>
+                                                                            </span>
                                                                     }
 
                                                                 </td>

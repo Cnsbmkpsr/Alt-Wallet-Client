@@ -6,10 +6,10 @@ import ProgressBar from "@badrap/bar-of-progress";
 import PropTypes from 'prop-types';
 
 const progress = new ProgressBar({
-  size: 4,
-  color: "#FE595E",
+  size: 8,
+  color: "#38bdf8",
   className: "z-50",
-  delay: 100,
+  delay: 500,
 });
 
 Router.events.on('routeChangeStart', progress.start);
