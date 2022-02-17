@@ -244,7 +244,7 @@ const DashboardApi = ({ walletAddress }) => {
                                                                 </td>
                                                                 <td className="px-1 py-5 border-b border-gray-200 bg-white text-sm border-r">
                                                                     <p className="text-gray-900 whitespace-no-wrap">
-                                                                        {new Date(transaction.timestamp * 1000).getFullYear()}/{new Date(transaction.timestamp * 1000).getDate()}/{new Date(transaction.timestamp * 1000).getMonth()}
+                                                                        {new Date(transaction.timestamp * 1000).getFullYear()}-{new Date(transaction.timestamp * 1000).getMonth() + 1}-{new Date(transaction.timestamp * 1000).getDate()}
                                                                     </p>
                                                                 </td>
                                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
